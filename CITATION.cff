@@ -9,6 +9,7 @@ authors:
 version: 1.0.0
 date-released: 2026-08-10
 license: Apache-2.0
+doi: "10.5281/zenodo.21878194"
 repository-code: "https://github.com/ameen-banjar/daim-os-distributed-execution"
 abstract: >-
   Reproducibility artifact for "Distributing the DAIM-OS Table-and-Signal
