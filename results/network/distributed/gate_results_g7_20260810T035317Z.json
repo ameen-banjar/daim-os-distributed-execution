@@ -1,0 +1,32 @@
+{
+  "n8": {
+    "n_nodes": 8,
+    "pass": false,
+    "fatal_error": {
+      "type": "RuntimeError",
+      "message": "cluster of size 8 failed to start after 3 attempts",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/abanjar/Desktop/DAIM/experiments/network/scaling_prototype_gate.py\", line 212, in build_cluster\n    raise RuntimeError(f\"node{i} never became ready (n={n})\")\nRuntimeError: node1 never became ready (n=8)\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/abanjar/Desktop/DAIM/experiments/network/scaling_prototype_gate.py\", line 341, in run_one_size\n    nodes = build_cluster(n, ready_timeout)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abanjar/Desktop/DAIM/experiments/network/scaling_prototype_gate.py\", line 224, in build_cluster\n    raise RuntimeError(f\"cluster of size {n} failed to start after \"\nRuntimeError: cluster of size 8 failed to start after 3 attempts\n"
+    },
+    "wall_time_s": 389.164374215
+  },
+  "n16": {
+    "n_nodes": 16,
+    "pass": false,
+    "fatal_error": {
+      "type": "RuntimeError",
+      "message": "cluster of size 16 failed to start after 3 attempts",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/abanjar/Desktop/DAIM/experiments/network/scaling_prototype_gate.py\", line 212, in build_cluster\n    raise RuntimeError(f\"node{i} never became ready (n={n})\")\nRuntimeError: node1 never became ready (n=16)\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/abanjar/Desktop/DAIM/experiments/network/scaling_prototype_gate.py\", line 341, in run_one_size\n    nodes = build_cluster(n, ready_timeout)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abanjar/Desktop/DAIM/experiments/network/scaling_prototype_gate.py\", line 224, in build_cluster\n    raise RuntimeError(f\"cluster of size {n} failed to start after \"\nRuntimeError: cluster of size 16 failed to start after 3 attempts\n"
+    },
+    "wall_time_s": 594.3569779979999
+  },
+  "n32": {
+    "n_nodes": 32,
+    "pass": false,
+    "fatal_error": {
+      "type": "RuntimeError",
+      "message": "cluster of size 32 failed to start after 3 attempts",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/abanjar/Desktop/DAIM/experiments/network/scaling_prototype_gate.py\", line 212, in build_cluster\n    raise RuntimeError(f\"node{i} never became ready (n={n})\")\nRuntimeError: node1 never became ready (n=32)\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/Users/abanjar/Desktop/DAIM/experiments/network/scaling_prototype_gate.py\", line 341, in run_one_size\n    nodes = build_cluster(n, ready_timeout)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abanjar/Desktop/DAIM/experiments/network/scaling_prototype_gate.py\", line 224, in build_cluster\n    raise RuntimeError(f\"cluster of size {n} failed to start after \"\nRuntimeError: cluster of size 32 failed to start after 3 attempts\n"
+    },
+    "wall_time_s": 1004.138036112
+  }
+}

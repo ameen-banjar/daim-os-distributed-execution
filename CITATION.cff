@@ -1,0 +1,55 @@
+cff-version: 1.2.0
+message: "If you use this artifact, please cite it and the paper it accompanies once published."
+title: "DAIM-OS Distributed Execution Artifact: Independently Executing Per-Switch Cores, Explicit State Semantics, and a Statistically Validated Evaluation"
+type: software
+authors:
+  - family-names: Banjar
+    given-names: Ameen
+    orcid: "https://orcid.org/0000-0002-0871-5153"
+version: 1.0.0
+date-released: 2026-08-10
+license: Apache-2.0
+repository-code: "https://github.com/ameen-banjar/daim-os-distributed-execution"
+abstract: >-
+  Reproducibility artifact for "Distributing the DAIM-OS Table-and-Signal
+  Contract: Independently Executing Per-Switch Cores, Explicit State
+  Semantics, and a Statistically Validated Evaluation" (Paper 2 in the DAIM
+  six-paper programme). Contains four new C modules extending the
+  reconstructed DAIM Core (from the companion Packet-In artifact) with a
+  distributed host-location state table, a peer wire protocol, a persistent
+  peer transport, and a distributed learning application; the Python gate
+  and statistical-campaign harnesses for eight mechanism gates (propagation,
+  duplicate/stale/epoch-ordering rejection, node-failure isolation,
+  partition detection/reconvergence, node-count scaling to 32, and
+  ownership-conflict detection), each demonstrated as a single trial and
+  independently repeated 30 times against three explicit baselines
+  (single-Core, no-exchange, distributed/versioned); and the full raw
+  per-repetition evidence, gate/campaign result summaries, and manifests
+  with SHA-256 checksums.
+keywords:
+  - distributed systems
+  - software-defined networking
+  - state dissemination
+  - OpenFlow
+  - Open vSwitch
+  - reproducible systems research
+  - concurrency
+references:
+  - type: software
+    title: "DAIM-OS Packet-In Artifact: Reconstructing the DAIM-OS Table-and-Signal Control Path"
+    authors:
+      - family-names: Banjar
+        given-names: Ameen
+        orcid: "https://orcid.org/0000-0002-0871-5153"
+    version: "1.1.0"
+    doi: "10.5281/zenodo.21855229"
+    repository-code: "https://github.com/ameen-banjar/daim-os-packetin-artifact"
+  - type: software
+    title: "DAIM-OS: Distributed Active Information Model Operating System Specification"
+    authors:
+      - family-names: Banjar
+        given-names: Ameen Reda
+        orcid: "https://orcid.org/0000-0002-0871-5153"
+    version: "1.0.0"
+    doi: "10.5281/zenodo.21426560"
+    repository-code: "https://github.com/ameen-banjar/DAIM-OS"

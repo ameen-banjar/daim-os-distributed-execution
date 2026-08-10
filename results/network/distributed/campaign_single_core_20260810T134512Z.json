@@ -1,0 +1,45 @@
+{
+  "run_id": "paper2-campaign-single-core-20260810T134512Z",
+  "run_timestamp": "20260810T134512Z",
+  "mode": "process_per_rule",
+  "base_seed": 20260810,
+  "repetitions": 2,
+  "n_confirmed": 2,
+  "confirmed_rate": 1.0,
+  "topology_note": "single-switch/3-host (packetin_latency_breakdown.py's SingleSwitchTopo), not Paper 2's 4-switch chain -- see module docstring for why",
+  "metric_summary": {
+    "total_dispatch_to_confirmed_ms": {
+      "n": 2,
+      "median": 13.1516225,
+      "p95": 13.29219305,
+      "p99": 13.30468821,
+      "maximum": 13.307812,
+      "median_bootstrap_95_ci": [
+        12.995433,
+        13.307812
+      ]
+    },
+    "core_decision_ms": {
+      "n": 2,
+      "median": 0.0006255,
+      "p95": 0.00066285,
+      "p99": 0.00066617,
+      "maximum": 0.000667,
+      "median_bootstrap_95_ci": [
+        0.000584,
+        0.000667
+      ]
+    },
+    "core_table_write_to_install_ms": {
+      "n": 2,
+      "median": 10.905259000000001,
+      "p95": 10.9569352,
+      "p99": 10.96152864,
+      "maximum": 10.962677,
+      "median_bootstrap_95_ci": [
+        10.847841,
+        10.962677
+      ]
+    }
+  }
+}

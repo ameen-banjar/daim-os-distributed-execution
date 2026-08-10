@@ -1,0 +1,2 @@
+n_nodes,pass,convergence_s,connections_observed,connections_expected,propagation_n_samples,propagation_latency_median_ms,propagation_latency_p95_ms,propagation_latency_p99_ms,apply_events_total,lifecycle_events_total,wall_time_s,fatal_error
+8,True,6.768244466002216,56,56,224,0.0,0.0,0.0,292,285,14.147363410000253,

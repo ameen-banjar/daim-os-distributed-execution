@@ -1,0 +1,26 @@
+{
+  "run_timestamp": "20260810T135939Z",
+  "run_id": "paper2-g1-g8-20260810T135939Z",
+  "random_seed": 20260834,
+  "n_nodes": 4,
+  "environment": {
+    "python": "3.12.3",
+    "platform": "Linux-6.8.0-136-generic-aarch64-with-glibc2.39",
+    "kernel": "6.8.0-136-generic"
+  },
+  "all_gates_passed": true,
+  "gate_pass": {
+    "G1": true,
+    "G2": true,
+    "G3": true,
+    "G4": true,
+    "G6": true,
+    "G8": true,
+    "G5": true
+  },
+  "fatal_error": null,
+  "files": {
+    "raw_events_20260810T135939Z.jsonl": "4a07bfcb5bef2f4e1dc2b132c13e8cdc6ac8d8275f62436877107fba75d60581",
+    "gate_results_20260810T135939Z.json": "84c748eff535f6fcc0c4db8708c4b15b82aeaa3d48660b2adcb8a2f3ca0094f3"
+  }
+}

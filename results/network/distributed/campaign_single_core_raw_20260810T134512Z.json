@@ -1,0 +1,40 @@
+[
+  {
+    "mode": "process_per_rule",
+    "repetition": 1,
+    "priming_ok": 1,
+    "ping_success": 1,
+    "evidence_level": "measured_emulation",
+    "t_dispatch_enter_ns": 2216713483464,
+    "t_pre_ctypes_ns": 2216713555797,
+    "c_entry_ns": 2216713571297,
+    "c_decision_done_ns": 2216713571964,
+    "c_table_write_done_ns": 2216713572422,
+    "c_install_done_ns": 2216724535099,
+    "c_exit_ns": 2216724535265,
+    "t_post_ctypes_ns": 2216724539724,
+    "t_packetout_sent_ns": 2216724574974,
+    "t_confirmed_ns": 2216726791276,
+    "installed": true,
+    "confirmed": true
+  },
+  {
+    "mode": "process_per_rule",
+    "repetition": 2,
+    "priming_ok": 1,
+    "ping_success": 1,
+    "evidence_level": "measured_emulation",
+    "t_dispatch_enter_ns": 2221577807215,
+    "t_pre_ctypes_ns": 2221577873798,
+    "c_entry_ns": 2221577889298,
+    "c_decision_done_ns": 2221577889882,
+    "c_table_write_done_ns": 2221577890590,
+    "c_install_done_ns": 2221588738431,
+    "c_exit_ns": 2221588738597,
+    "t_post_ctypes_ns": 2221588758931,
+    "t_packetout_sent_ns": 2221588806139,
+    "t_confirmed_ns": 2221590802648,
+    "installed": true,
+    "confirmed": true
+  }
+]

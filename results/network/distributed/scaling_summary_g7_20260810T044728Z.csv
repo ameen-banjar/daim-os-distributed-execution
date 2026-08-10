@@ -1,0 +1,2 @@
+n_nodes,pass,convergence_s,connections_observed,connections_expected,propagation_n_samples,propagation_latency_median_ms,propagation_latency_p95_ms,propagation_latency_p99_ms,apply_events_total,lifecycle_events_total,wall_time_s,fatal_error
+8,False,,,,,,,,,,388.97991605100015,cluster of size 8 failed to start after 3 attempts

@@ -1,0 +1,87 @@
+{
+  "run_id": "paper2-campaign-distributed-20260810T134534Z",
+  "run_timestamp": "20260810T134534Z",
+  "base_seed": 20260810,
+  "repetitions": 30,
+  "conditions": [
+    "G1",
+    "G2",
+    "G3",
+    "G4",
+    "G5",
+    "G6",
+    "G8"
+  ],
+  "condition_summary": {
+    "G1": {
+      "repetitions": 30,
+      "n_passed": 30,
+      "pass_rate": 1.0
+    },
+    "G2": {
+      "repetitions": 30,
+      "n_passed": 30,
+      "pass_rate": 1.0
+    },
+    "G3": {
+      "repetitions": 30,
+      "n_passed": 30,
+      "pass_rate": 1.0
+    },
+    "G4": {
+      "repetitions": 30,
+      "n_passed": 30,
+      "pass_rate": 1.0
+    },
+    "G5": {
+      "repetitions": 30,
+      "n_passed": 30,
+      "pass_rate": 1.0
+    },
+    "G6": {
+      "repetitions": 30,
+      "n_passed": 29,
+      "pass_rate": 0.9666666666666667
+    },
+    "G8": {
+      "repetitions": 30,
+      "n_passed": 30,
+      "pass_rate": 1.0
+    }
+  },
+  "metric_summary": {
+    "G1_propagation_latency_median_ms": {
+      "n": 30,
+      "median": 0.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "maximum": 0.0,
+      "median_bootstrap_95_ci": [
+        0.0,
+        0.0
+      ]
+    },
+    "G6_detection_time_s": {
+      "n": 30,
+      "median": 3.2850490670000454,
+      "p95": 3.3096348893498773,
+      "p99": 3.3249772325499043,
+      "maximum": 3.3312363909999476,
+      "median_bootstrap_95_ci": [
+        3.281316219500013,
+        3.293581503937355
+      ]
+    },
+    "G6_reconvergence_time_s": {
+      "n": 30,
+      "median": 0.20077817350011173,
+      "p95": 1.0579646306500763,
+      "p99": 1.0756638911402525,
+      "maximum": 1.078429022000364,
+      "median_bootstrap_95_ci": [
+        0.17947419600000103,
+        0.23214142849997188
+      ]
+    }
+  }
+}

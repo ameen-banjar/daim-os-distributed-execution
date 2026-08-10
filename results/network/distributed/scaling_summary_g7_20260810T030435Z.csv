@@ -1,0 +1,6 @@
+n_nodes,pass,convergence_s,connections_observed,connections_expected,propagation_n_samples,propagation_latency_median_ms,propagation_latency_p95_ms,propagation_latency_p99_ms,apply_events_total,lifecycle_events_total,wall_time_s,fatal_error
+2,True,1.1894469150010991,2,2,35,0.0,0.0,0.0,39,9,8.038792277000539,
+4,True,97.64013738700123,12,12,93,0.0,0.0,0.0,96,57,104.81369698900016,
+8,False,,,,,,,,,,388.9430961300004,cluster of size 8 failed to start after 3 attempts
+16,False,,,,,,,,,,593.7840965160012,cluster of size 16 failed to start after 3 attempts
+32,False,,,,,,,,,,1003.8867148249992,cluster of size 32 failed to start after 3 attempts

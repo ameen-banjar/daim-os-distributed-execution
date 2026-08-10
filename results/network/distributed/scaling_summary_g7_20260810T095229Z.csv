@@ -1,0 +1,6 @@
+n_nodes,pass,convergence_s,connections_observed,connections_expected,propagation_n_samples,propagation_latency_median_ms,propagation_latency_p95_ms,propagation_latency_p99_ms,apply_events_total,lifecycle_events_total,wall_time_s,fatal_error
+2,True,1.0864619240019238,2,2,35,0.0,0.0,0.0,40,9,7.832232993001526,
+4,True,2.3751272080007766,12,12,96,0.0,0.0,0.0,116,57,9.156142993997491,
+8,True,6.741348740997637,56,56,224,0.0,0.0,0.0,292,285,13.89409034399796,
+16,True,12.832439377998526,240,240,480,0.0,0.0,0.0,728,1318,20.833703513999353,
+32,True,20.836751718001324,992,992,992,0.0,0.0,0.0,1178,5903,30.63611260399921,

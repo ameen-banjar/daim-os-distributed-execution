@@ -1,0 +1,186 @@
+[
+  {
+    "rep": 0,
+    "result": {
+      "gate": "no_exchange_propagation",
+      "description": "with peer dissemination disabled, propagation must be exactly zero, and cross-node forwarding decisions must stay FLOOD -- both are the expected, correct result of this baseline, not a failure",
+      "pass": true,
+      "n_repetitions_sent": 100,
+      "propagation_events_observed": 0,
+      "lifecycle_events_observed": 0,
+      "node4_local_learn_confirmed": true,
+      "cross_node_decisions_always_flooded": true,
+      "flood_evidence_sample": [
+        {
+          "node": 1,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 1,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 1,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 1,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 1,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 2,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 2,
+          "mac_dst": "00:00:00:00:00:01",
+          "out_port": 65531
+        },
+        {
+          "node": 2,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 2,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 2,
+          "mac_dst": "00:00:00:00:00:01",
+          "out_port": 65531
+        },
+        {
+          "node": 3,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 3,
+          "mac_dst": "00:00:00:00:00:01",
+          "out_port": 65531
+        },
+        {
+          "node": 3,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 3,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 3,
+          "mac_dst": "00:00:00:00:00:01",
+          "out_port": 65531
+        }
+      ]
+    },
+    "fatal_error": null,
+    "raw_events_file": "raw_events_no_exchange_20260810T134007Z_rep0.jsonl"
+  },
+  {
+    "rep": 1,
+    "result": {
+      "gate": "no_exchange_propagation",
+      "description": "with peer dissemination disabled, propagation must be exactly zero, and cross-node forwarding decisions must stay FLOOD -- both are the expected, correct result of this baseline, not a failure",
+      "pass": true,
+      "n_repetitions_sent": 100,
+      "propagation_events_observed": 0,
+      "lifecycle_events_observed": 0,
+      "node4_local_learn_confirmed": true,
+      "cross_node_decisions_always_flooded": true,
+      "flood_evidence_sample": [
+        {
+          "node": 1,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 1,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 1,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 1,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 1,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 2,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 2,
+          "mac_dst": "00:00:00:00:00:01",
+          "out_port": 65531
+        },
+        {
+          "node": 2,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 2,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 2,
+          "mac_dst": "00:00:00:00:00:01",
+          "out_port": 65531
+        },
+        {
+          "node": 3,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 3,
+          "mac_dst": "00:00:00:00:00:01",
+          "out_port": 65531
+        },
+        {
+          "node": 3,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 3,
+          "mac_dst": "00:00:00:00:00:04",
+          "out_port": 65531
+        },
+        {
+          "node": 3,
+          "mac_dst": "00:00:00:00:00:01",
+          "out_port": 65531
+        }
+      ]
+    },
+    "fatal_error": null,
+    "raw_events_file": "raw_events_no_exchange_20260810T134007Z_rep1.jsonl"
+  }
+]

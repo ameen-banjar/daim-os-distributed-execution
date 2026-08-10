@@ -1,0 +1,17 @@
+[
+  {
+    "n_nodes": 8,
+    "pass": false,
+    "convergence_s": null,
+    "connections_observed": null,
+    "connections_expected": null,
+    "propagation_n_samples": null,
+    "propagation_latency_median_ms": null,
+    "propagation_latency_p95_ms": null,
+    "propagation_latency_p99_ms": null,
+    "apply_events_total": null,
+    "lifecycle_events_total": null,
+    "wall_time_s": 389.03134910100016,
+    "fatal_error": "cluster of size 8 failed to start after 3 attempts"
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "run_id": "paper2-campaign-distributed-20260810T134534Z",
+  "run_timestamp": "20260810T134534Z",
+  "base_seed": 20260810,
+  "repetitions": 30,
+  "all_repetitions_all_conditions_passed": false,
+  "condition_pass_rate": {
+    "G1": 1.0,
+    "G2": 1.0,
+    "G3": 1.0,
+    "G4": 1.0,
+    "G5": 1.0,
+    "G6": 0.9666666666666667,
+    "G8": 1.0
+  },
+  "files": {
+    "campaign_distributed_20260810T134534Z.json": "4401346515c24e840a718176f65fc8b10de99c5e327c692939b04877526f585f",
+    "campaign_distributed_raw_20260810T134534Z.json": "8b0bd6662f34ca965ddbf7c154370f0180fa1e535dd224151ba589800915853f"
+  }
+}

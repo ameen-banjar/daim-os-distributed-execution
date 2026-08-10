@@ -1,0 +1,126 @@
+{
+  "n2_rep0": {
+    "n_nodes": 2,
+    "pass": true,
+    "fatal_error": null,
+    "convergence_s": 1.1359727650000053,
+    "connections_observed": 2,
+    "connections_expected": 2,
+    "apply_events_total": 38,
+    "lifecycle_events_total": 9,
+    "propagation": {
+      "n_repetitions_sent": 30,
+      "n_samples": 33,
+      "observing_nodes": [
+        1
+      ],
+      "propagation_ok": true,
+      "latency_summary_ms": {
+        "n": 33,
+        "median": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "maximum": 0.0,
+        "median_bootstrap_95_ci": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "wall_time_s": 7.876489311
+  },
+  "n2_rep1": {
+    "n_nodes": 2,
+    "pass": true,
+    "fatal_error": null,
+    "convergence_s": 1.0517254439999988,
+    "connections_observed": 2,
+    "connections_expected": 2,
+    "apply_events_total": 40,
+    "lifecycle_events_total": 9,
+    "propagation": {
+      "n_repetitions_sent": 30,
+      "n_samples": 35,
+      "observing_nodes": [
+        1
+      ],
+      "propagation_ok": true,
+      "latency_summary_ms": {
+        "n": 35,
+        "median": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "maximum": 0.0,
+        "median_bootstrap_95_ci": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "wall_time_s": 7.822036566000008
+  },
+  "n4_rep0": {
+    "n_nodes": 4,
+    "pass": true,
+    "fatal_error": null,
+    "convergence_s": 3.523832243000001,
+    "connections_observed": 12,
+    "connections_expected": 12,
+    "apply_events_total": 118,
+    "lifecycle_events_total": 58,
+    "propagation": {
+      "n_repetitions_sent": 30,
+      "n_samples": 99,
+      "observing_nodes": [
+        1,
+        2,
+        3
+      ],
+      "propagation_ok": true,
+      "latency_summary_ms": {
+        "n": 99,
+        "median": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "maximum": 0.0,
+        "median_bootstrap_95_ci": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "wall_time_s": 10.465962318999999
+  },
+  "n4_rep1": {
+    "n_nodes": 4,
+    "pass": true,
+    "fatal_error": null,
+    "convergence_s": 2.4519627850000063,
+    "connections_observed": 12,
+    "connections_expected": 12,
+    "apply_events_total": 119,
+    "lifecycle_events_total": 57,
+    "propagation": {
+      "n_repetitions_sent": 30,
+      "n_samples": 99,
+      "observing_nodes": [
+        1,
+        2,
+        3
+      ],
+      "propagation_ok": true,
+      "latency_summary_ms": {
+        "n": 99,
+        "median": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "maximum": 0.0,
+        "median_bootstrap_95_ci": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "wall_time_s": 9.305018868000005
+  }
+}

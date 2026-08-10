@@ -1,0 +1,12 @@
+{
+  "run_id": "paper2-campaign-single-core-20260810T134512Z",
+  "run_timestamp": "20260810T134512Z",
+  "mode": "process_per_rule",
+  "base_seed": 20260810,
+  "repetitions": 2,
+  "all_confirmed": true,
+  "files": {
+    "campaign_single_core_20260810T134512Z.json": "5584254f2e68178b30ea8ae12f0c0a27a95abd9f99202a8eecbdd67b8e89b148",
+    "campaign_single_core_raw_20260810T134512Z.json": "5da5848fe4856cbea478a04b71cc5bbb0413ac16d5966245b8822388943ca8bf"
+  }
+}

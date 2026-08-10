@@ -1,0 +1,22 @@
+{
+  "run_timestamp": "20260809T163003Z",
+  "run_id": "paper2-g1-g6-20260809T163003Z",
+  "random_seed": 20260809,
+  "n_nodes": 4,
+  "environment": {
+    "python": "3.12.3",
+    "platform": "Linux-6.8.0-136-generic-aarch64-with-glibc2.39",
+    "kernel": "6.8.0-136-generic"
+  },
+  "all_gates_passed": false,
+  "gate_pass": {},
+  "fatal_error": {
+    "type": "RuntimeError",
+    "message": "node3 never became ready",
+    "traceback": "Traceback (most recent call last):\n  File \"/Users/abanjar/Desktop/DAIM/experiments/network/distributed_prototype_gate.py\", line 496, in main\n    nodes = start_cluster()\n            ^^^^^^^^^^^^^^^\n  File \"/Users/abanjar/Desktop/DAIM/experiments/network/distributed_prototype_gate.py\", line 207, in start_cluster\n    raise RuntimeError(f\"node{i} never became ready\")\nRuntimeError: node3 never became ready\n"
+  },
+  "files": {
+    "raw_events_20260809T163003Z.jsonl": "f309a76f34edac2a531ff706190de2b5df75ff1f41398f16f08dd6091f20cdb1",
+    "gate_results_20260809T163003Z.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+  }
+}

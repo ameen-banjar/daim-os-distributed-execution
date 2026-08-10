@@ -1,0 +1,32 @@
+[
+  {
+    "n_nodes": 2,
+    "pass": true,
+    "convergence_s": 1.2360100300011254,
+    "connections_observed": 2,
+    "connections_expected": 2,
+    "propagation_n_samples": 36,
+    "propagation_latency_median_ms": 0.0,
+    "propagation_latency_p95_ms": 0.0,
+    "propagation_latency_p99_ms": 0.0,
+    "apply_events_total": 40,
+    "lifecycle_events_total": 9,
+    "wall_time_s": 8.122387216000789,
+    "fatal_error": null
+  },
+  {
+    "n_nodes": 4,
+    "pass": true,
+    "convergence_s": 3.6485164780006016,
+    "connections_observed": 12,
+    "connections_expected": 12,
+    "propagation_n_samples": 99,
+    "propagation_latency_median_ms": 0.0,
+    "propagation_latency_p95_ms": 0.0,
+    "propagation_latency_p99_ms": 0.0,
+    "apply_events_total": 121,
+    "lifecycle_events_total": 58,
+    "wall_time_s": 10.639697578999403,
+    "fatal_error": null
+  }
+]

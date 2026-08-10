@@ -1,0 +1,92 @@
+{
+  "G1": {
+    "gate": "G1",
+    "description": "valid update propagates between 4 independent processes",
+    "pass": true,
+    "n_repetitions_sent": 100,
+    "n_apply_events_observed": 4,
+    "samples": [
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.0
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.0
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.0
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.0
+      }
+    ],
+    "node_pids": {
+      "1": 8840,
+      "2": 8846,
+      "3": 8851,
+      "4": 8856
+    },
+    "distinct_pids": true,
+    "latency_summary_ms": {
+      "n": 4,
+      "median": 0.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "maximum": 0.0,
+      "median_bootstrap_95_ci": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "G2": {
+    "gate": "G2",
+    "description": "duplicate update rejected",
+    "pass": true,
+    "observed_results": [
+      "new",
+      "duplicate"
+    ]
+  },
+  "G3": {
+    "gate": "G3",
+    "description": "stale (lower-sequence, same-epoch) update rejected",
+    "pass": true,
+    "observed_results": [
+      "new",
+      "stale_rejected"
+    ]
+  },
+  "G4": {
+    "gate": "G4",
+    "description": "newer epoch accepted, older epoch rejected despite sequence",
+    "pass": true,
+    "observed_results": [
+      "new",
+      "stale_rejected",
+      "updated"
+    ]
+  },
+  "G6": {
+    "gate": "G6",
+    "description": "partition detected, then reconnect + snapshot convergence",
+    "pass": false,
+    "detection_time_s": null,
+    "reconvergence_time_s": null,
+    "did_not_falsely_know_during_partition": true,
+    "knows_after_reconvergence": false,
+    "source_traffic_during_partition_output": "PING 10.0.0.1 (10.0.0.1) 56(84) bytes of data.\r\n\r\n--- 10.0.0.1 ping statistics ---\r\n1 packets transmitted, 0 received, 100% packet loss, time 0ms\r\n\r\n"
+  },
+  "G5": {
+    "gate": "G5",
+    "description": "surviving nodes keep deciding during a peer failure",
+    "pass": false,
+    "had_h4_cached_before_kill": true,
+    "unrelated_traffic_ok_after_kill": true,
+    "cached_decision_made_after_kill": false,
+    "flow_installed_after_kill": false
+  }
+}
