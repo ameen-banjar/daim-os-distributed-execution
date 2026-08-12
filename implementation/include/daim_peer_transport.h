@@ -36,6 +36,15 @@ struct daim_peer_transport_stats {
     uint64_t reconnect_attempts;
     uint64_t snapshot_entries_sent;
     uint64_t snapshot_entries_received;
+    /* HOST_LOCATION_UPDATE messages that arrived during a connection's
+       handshake/snapshot window and were queued for replay once it
+       finished, rather than dropped -- see exchange_snapshots(). */
+    uint64_t deferred_updates_replayed;
+    /* Same window, but the per-connection deferred queue (MAX_DEFERRED_
+       UPDATES) was already full; counted, not silently dropped. Zero in
+       every gate this paper reports; present so a future run that hits it
+       is visible in the evidence rather than silently lossy. */
+    uint64_t deferred_updates_overflow_dropped;
 };
 
 /* Fired for every apply attempt (local snapshot entries during resync, and

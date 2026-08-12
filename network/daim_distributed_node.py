@@ -267,6 +267,11 @@ class DistributedNode:
         return run_ovs_command(args)
 
     def _on_apply(self, _context, from_peer_node_id, loc_ptr, result):
+        # loc.applied_at_ns is stamped by the C transport layer right before
+        # this callback fires (daim_peer_transport.c), with this node's own
+        # monotonic_ns() at receive time -- not carried over from the wire,
+        # where it would equal the origin's own learned_at_ns for a fresh
+        # local learn and make propagation latency always exactly zero.
         loc = loc_ptr.contents
         emit("apply", from_peer_node_id=from_peer_node_id,
              result=APPLY_RESULT_NAMES[result], **loc.to_dict())

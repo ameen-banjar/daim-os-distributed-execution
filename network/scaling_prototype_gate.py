@@ -10,9 +10,13 @@ For each N in NODE_COUNTS, this module builds a fresh N-node cluster (its
 own Mininet topology, torn down and rebuilt for the next N -- not one
 topology growing in place), measures:
 
-  convergence_s   wall-clock from cluster launch to every node reporting
-                   a "connected" lifecycle event for all N-1 of its peers
-                   (the full-mesh analogue of G6's reconvergence marker).
+  convergence_s   wall-clock from the point every node process is already
+                   running and OpenFlow-ready (i.e. excluding the staged,
+                   deterministic per-node launch delay build_cluster uses)
+                   to every node reporting a "snapshot_received" lifecycle
+                   event for all N-1 of its peers -- state actually synced,
+                   not merely TCP+HELLO connected (the full-mesh analogue
+                   of G6's reconvergence marker).
   propagation      the highest-numbered host pings host 1, forcing a fresh
                    table-miss each repetition; every other node's "apply"
                    event for that origin is timed learned_at_ns ->
@@ -233,13 +237,17 @@ def stop_cluster(nodes):
 
 def wait_for_full_mesh(nodes, n, timeout_s):
     """Returns the monotonic timestamp at which every node has reported a
-    'connected' lifecycle event for all n-1 of its peers, or None on
-    timeout."""
+    'snapshot_received' lifecycle event for all n-1 of its peers, or None on
+    timeout. Deliberately not 'connected': that event fires right after
+    HELLO, before exchange_snapshots() even starts (daim_peer_transport.c),
+    so counting it would measure TCP+HELLO establishment, not distributed-
+    state convergence -- 'snapshot_received' is the event that actually
+    means this node's state is synced with that peer."""
     expected = n - 1
     deadline = time.monotonic() + timeout_s
     while time.monotonic() < deadline:
         if all(len(node.events_matching(
-                lambda e: e.get("event") == "lifecycle" and e.get("name") == "connected")) >= expected
+                lambda e: e.get("event") == "lifecycle" and e.get("name") == "snapshot_received")) >= expected
                 for node in nodes.values()):
             return time.monotonic()
         time.sleep(0.05)
@@ -301,6 +309,8 @@ def measure_propagation(net, nodes, n, repetitions=PROPAGATION_REPETITIONS):
             and e.get("result") in ("new", "updated")
         )
         for e in events:
+            # applied_at_ns is stamped by the C transport layer at receive
+            # time (daim_peer_transport.c); see distributed_prototype_gate.py's G1.
             latency_ms = (e["applied_at_ns"] - e["learned_at_ns"]) / 1e6
             samples.append({"observing_node": target, "propagation_latency_ms": latency_ms})
 
@@ -326,7 +336,7 @@ def run_one_size(n):
     net = None
     nodes = {}
     outcome = {"n_nodes": n, "pass": False, "fatal_error": None}
-    t0 = time.monotonic()
+    launch_start = time.monotonic()  # covers the whole repetition, incl. staged node launch
     try:
         subprocess.run(["mn", "-c"], check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         subprocess.run(["pkill", "-9", "-f", str(CONTROLLER_APP)], check=False,
@@ -337,13 +347,19 @@ def run_one_size(n):
                       link=TCLink, autoSetMacs=True)
         net.start()
 
-        t0 = time.monotonic()
+        launch_start = time.monotonic()
         ready_timeout = READY_TIMEOUT_BASE_S + READY_TIMEOUT_PER_NODE_S * n
         nodes = build_cluster(n, ready_timeout)
 
+        # mesh_start, not launch_start: build_cluster's own N x
+        # SPAWN_STAGGER_S staged launch (0.5 s/node) is deliberate harness
+        # policy, not protocol behaviour -- at N=32 that alone is 16 s.
+        # convergence_s should measure only the distributed-state-sync work
+        # that begins once every node process already exists and is ready.
+        mesh_start = time.monotonic()
         mesh_timeout = MESH_TIMEOUT_BASE_S + MESH_TIMEOUT_PER_NODE_S * n
         mesh_ready_at = wait_for_full_mesh(nodes, n, mesh_timeout)
-        convergence_s = (mesh_ready_at - t0) if mesh_ready_at is not None else None
+        convergence_s = (mesh_ready_at - mesh_start) if mesh_ready_at is not None else None
 
         propagation = measure_propagation(net, nodes, n) if n >= 2 else {
             "n_repetitions_sent": 0, "n_samples": 0, "observing_nodes": [],
@@ -372,7 +388,7 @@ def run_one_size(n):
             net.stop()
         subprocess.run(["mn", "-c"], check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-    outcome["wall_time_s"] = time.monotonic() - t0
+    outcome["wall_time_s"] = time.monotonic() - launch_start
     record_raw("gate_driver", {"event": "size_done", "n_nodes": n,
                                 "pass": outcome["pass"], "wall_time_s": outcome["wall_time_s"]})
     return outcome

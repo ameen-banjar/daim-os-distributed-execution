@@ -1,0 +1,1347 @@
+{
+  "G1": {
+    "gate": "G1",
+    "description": "valid update propagates between 4 independent processes",
+    "pass": true,
+    "n_repetitions_sent": 100,
+    "n_apply_events_observed": 307,
+    "samples": [
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.160631
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.074586
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.102463
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.212967
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.212967
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.225426
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.052252
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.09317
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.131672
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.112463
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.346431
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.178424
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.069253
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.101463
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.209592
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.135964
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.182299
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.056002
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.159882
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.116921
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.079878
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.115963
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.100296
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.130756
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.063586
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.158881
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.060086
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.12788
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.185424
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.121172
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.223259
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.350806
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.146381
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.090754
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.097837
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.178008
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.080754
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.103671
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.265052
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.544272
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.224885
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.1988
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.150798
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.08292
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.278594
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.209759
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.223592
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.108962
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.111546
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.118963
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.061627
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.091296
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.167798
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.068919
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.09542
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.402308
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.223468
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.193425
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.248926
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.090462
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.12313
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.145006
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.17409
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.252385
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.147047
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.069211
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.087712
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.128256
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.165965
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.185924
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.14413
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.167049
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.211175
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.186091
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.175341
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.087629
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.397308
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.225801
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.114713
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.062377
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.101588
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.097712
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.139089
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.163299
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.114879
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.150589
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.436226
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.234092
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.139589
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.27297
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.174216
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.189632
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.172882
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.111255
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.061794
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.085962
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.120547
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.149214
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.156215
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.392683
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.161215
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.135505
+      },
+      {
+        "observing_node": 1,
+        "propagation_latency_ms": 0.229384
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 41.876911
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.260302
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.25076
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.202342
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.160131
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.252843
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.086503
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.098296
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.24526
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.079462
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.499812
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.217301
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.321263
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.259844
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.550522
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.319513
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.10738
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.682069
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.236843
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.361765
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.167257
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.20055
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.095712
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.146297
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.434809
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.211509
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.101338
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.238301
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.165798
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.240635
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.179383
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.300721
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.133547
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.15284
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.162174
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.346181
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.209633
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.352889
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.479103
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.179632
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.175299
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.213008
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.150714
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.280512
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.119755
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.110963
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.23651
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.161298
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.171215
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.392099
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.37064
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.390682
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.157631
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.279469
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.164382
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.386057
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.239884
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.455852
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.229801
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.272928
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.138339
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.135922
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.105879
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.139339
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.220967
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.107547
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.137756
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.09217
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.112421
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.143881
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.191299
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.23251
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.14384
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.129756
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.480895
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.194633
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.13163
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.11988
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.158965
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.122755
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.242719
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.261844
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.185799
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.100004
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.158965
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.268844
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.086254
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.267844
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.174258
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.143422
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.183091
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.190091
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.213342
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.216217
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.147965
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.134463
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.117505
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.253969
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.141297
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.101962
+      },
+      {
+        "observing_node": 2,
+        "propagation_latency_ms": 0.273219
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.206258
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.074836
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.08142
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.315512
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.173257
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.175549
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.124755
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.153256
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.099171
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.129922
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.298595
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.12013
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.110546
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.17134
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.096712
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.07692
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.173132
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.293595
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.237302
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.193799
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.107171
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.212551
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.221259
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.113922
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.082878
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.196841
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.251968
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.138006
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.144881
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.164007
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.169882
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.401433
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.180049
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.104671
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.161757
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.115005
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.088587
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.496146
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.25151
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.304887
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.526855
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.105254
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.117797
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.226967
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.185049
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.23151
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.173007
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.09042
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.118005
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.069836
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.12563
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.144339
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.104588
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.49602
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.103754
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.164423
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.110046
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.083128
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.46981
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.224218
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.238052
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.115963
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.09542
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.163007
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.144922
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.159215
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.162048
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.128339
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.110879
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.108712
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.143089
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.094379
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.213633
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.140464
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.106505
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.249052
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.330722
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.094129
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.147756
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.362723
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.140089
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.147839
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.090546
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.237593
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.103129
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.115379
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.129338
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.353639
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.137839
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.109463
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.235218
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.126005
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.298179
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.135589
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.111463
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.172924
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.1853
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.080878
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.197216
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.127922
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.152298
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.107712
+      },
+      {
+        "observing_node": 3,
+        "propagation_latency_ms": 0.284678
+      }
+    ],
+    "node_pids": {
+      "1": 20034,
+      "2": 20040,
+      "3": 20045,
+      "4": 20050
+    },
+    "distinct_pids": true,
+    "latency_summary_ms": {
+      "n": 307,
+      "median": 0.160131,
+      "p95": 0.4001954999999999,
+      "p99": 0.5432269799999999,
+      "maximum": 41.876911,
+      "median_bootstrap_95_ci": [
+        0.147836925,
+        0.169882
+      ]
+    }
+  },
+  "G2": {
+    "gate": "G2",
+    "description": "duplicate update rejected",
+    "pass": true,
+    "observed_results": [
+      "new",
+      "duplicate"
+    ]
+  },
+  "G3": {
+    "gate": "G3",
+    "description": "stale (lower-sequence, same-epoch) update rejected",
+    "pass": true,
+    "observed_results": [
+      "new",
+      "stale_rejected"
+    ]
+  },
+  "G4": {
+    "gate": "G4",
+    "description": "newer epoch accepted, older epoch rejected despite sequence",
+    "pass": true,
+    "observed_results": [
+      "new",
+      "stale_rejected",
+      "updated"
+    ]
+  },
+  "G6": {
+    "gate": "G6",
+    "description": "partition detected, then reconnect + snapshot convergence",
+    "pass": true,
+    "detection_time_s": 3.2754629940000086,
+    "reconvergence_time_s": 0.17180315100006283,
+    "did_not_falsely_know_during_partition": true,
+    "knows_after_reconvergence": true,
+    "source_traffic_during_partition_output": "PING 10.0.0.1 (10.0.0.1) 56(84) bytes of data.\r\n64 bytes from 10.0.0.1: icmp_seq=1 ttl=64 time=37.0 ms\r\n\r\n--- 10.0.0.1 ping statistics ---\r\n1 packets transmitted, 1 received, 0% packet loss, time 0ms\r\nrtt min/avg/max/mdev = 37.003/37.003/37.003/0.000 ms\r\n"
+  },
+  "G8": {
+    "gate": "G8",
+    "description": "ownership conflict (two nodes claim the same MAC) is detected and rejected on every node that sees both, not silently resolved or corrupted -- detection only, resolution out of scope",
+    "pass": true,
+    "conflict_mac": "02:00:00:00:99:99",
+    "node1_claimed_locally": true,
+    "node4_claimed_locally": true,
+    "nodes_observing_conflict": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "all_expected_nodes_observed_conflict": true,
+    "no_duplicate_flows_installed": true,
+    "flows_unchanged_by_rejected_claim": true,
+    "unrelated_traffic_ok": true,
+    "flows_before": {
+      "s1": [
+        "cookie=0x0, duration=0.040s, table=0, n_packets=1, n_bytes=98, priority=100,in_port=2,dl_dst=02:00:00:00:99:99 actions=output:1"
+      ],
+      "s2": [
+        "cookie=0x0, duration=0.053s, table=0, n_packets=1, n_bytes=98, priority=100,in_port=3,dl_dst=02:00:00:00:99:99 actions=output:2"
+      ],
+      "s3": [
+        "cookie=0x0, duration=0.067s, table=0, n_packets=1, n_bytes=98, priority=100,in_port=1,dl_dst=02:00:00:00:99:99 actions=output:2"
+      ],
+      "s4": []
+    },
+    "flows_after": {
+      "s1": [
+        "cookie=0x0, duration=1.600s, table=0, n_packets=3, n_bytes=182, priority=100,in_port=2,dl_dst=02:00:00:00:99:99 actions=output:1"
+      ],
+      "s2": [
+        "cookie=0x0, duration=1.613s, table=0, n_packets=1, n_bytes=98, priority=100,in_port=3,dl_dst=02:00:00:00:99:99 actions=output:2",
+        "cookie=0x0, duration=1.541s, table=0, n_packets=1, n_bytes=42, priority=100,in_port=1,dl_dst=02:00:00:00:99:99 actions=output:2"
+      ],
+      "s3": [
+        "cookie=0x0, duration=1.627s, table=0, n_packets=1, n_bytes=98, priority=100,in_port=1,dl_dst=02:00:00:00:99:99 actions=output:2"
+      ],
+      "s4": []
+    }
+  },
+  "G5": {
+    "gate": "G5",
+    "description": "surviving nodes keep deciding during a peer failure",
+    "pass": true,
+    "had_h4_cached_before_kill": true,
+    "unrelated_traffic_ok_after_kill": true,
+    "cached_decision_made_after_kill": true,
+    "flow_installed_after_kill": true
+  }
+}

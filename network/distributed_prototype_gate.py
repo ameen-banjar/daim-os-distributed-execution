@@ -262,6 +262,9 @@ def gate_g1(net, nodes, repetitions=100):
             and e.get("result") in ("new", "updated")
         )
         for e in events:
+            # applied_at_ns is stamped by the C transport layer with this
+            # node's own monotonic_ns() at receive time (daim_peer_
+            # transport.c), not carried over from the wire.
             latency_ms = (e["applied_at_ns"] - e["learned_at_ns"]) / 1e6
             samples.append({"observing_node": target, "propagation_latency_ms": latency_ms})
 
@@ -484,12 +487,19 @@ def gate_g6(net, nodes):
         and e.get("recorded_monotonic_s", 0) > reconnect_start,
         timeout_s=30,
     )
+    # snapshot_done only confirms the snapshot mechanism engaged (part of
+    # `pass`, below) -- it does NOT define reconvergence_time_s. snapshot_sent
+    # means the target *served* its own snapshot to the peer, which says
+    # nothing about whether the target itself has caught up; snapshot_received
+    # means the target *imported* one, which may still race with the source's
+    # own post-partition update settling (see the timing note below). Neither
+    # is "target now holds the state it missed", which is what reconvergence
+    # is supposed to mean.
     snapshot_done = nodes[target_node].wait_for(
         lambda e: e.get("event") == "lifecycle" and e.get("name") in ("snapshot_received", "snapshot_sent")
         and e.get("recorded_monotonic_s", 0) > reconnect_start,
         timeout_s=30,
     )
-    reconvergence_s = time.monotonic() - reconnect_start if snapshot_done else None
 
     # wait_for, not an instantaneous events_matching check: the source's
     # entry can arrive via live dissemination shortly *after* the snapshot
@@ -499,11 +509,22 @@ def gate_g6(net, nodes):
     # (1/30: snapshot_done fired, reconvergence_time_s recorded, but this
     # check ran before the apply event landed). Every other lifecycle
     # marker in this function already waits; this one should too.
-    target_knows_after = bool(nodes[target_node].wait_for(
+    # This IS the reconvergence signal: the target's own log showing it
+    # actually applied the state it missed during the partition, whether
+    # that arrived via snapshot import or live dissemination -- not merely
+    # that some snapshot-phase event fired. reconvergence_time_s is timed
+    # from this event's own recorded timestamp, not from when this wait_for
+    # call happens to return, so polling granularity doesn't inflate it.
+    target_knows_after_event = nodes[target_node].wait_for(
         lambda e: e.get("event") == "apply" and e.get("origin_node_id") == source_node
         and e.get("recorded_monotonic_s", 0) > reconnect_start,
         timeout_s=10,
-    ))
+    )
+    target_knows_after = bool(target_knows_after_event)
+    reconvergence_s = (
+        (target_knows_after_event["recorded_monotonic_s"] - reconnect_start)
+        if target_knows_after_event else None
+    )
 
     return {
         "gate": "G6", "description": "partition detected, then reconnect + snapshot convergence",
@@ -617,9 +638,17 @@ def gate_g8(net, nodes):
             timeout_s=10,
         )
 
+        # Every node in a full mesh should see both claims: node1 and node4
+        # each reject the *other's* remote claim against their own local
+        # one, and node2/node3 (bystanders with no local claim of their
+        # own) reject whichever of the two remote claims arrives second.
+        # So the expected observing set is all N_NODES, not merely "at
+        # least one" -- the gate's own description above says "every node
+        # that sees both", and the oracle should actually enforce that.
+        expected_conflict_nodes = set(range(1, N_NODES + 1))
         conflict_seen = set()
         deadline = time.monotonic() + 10
-        while time.monotonic() < deadline and len(conflict_seen) < N_NODES:
+        while time.monotonic() < deadline and conflict_seen != expected_conflict_nodes:
             for i in range(1, N_NODES + 1):
                 if i in conflict_seen:
                     continue
@@ -630,6 +659,7 @@ def gate_g8(net, nodes):
                 ):
                     conflict_seen.add(i)
             time.sleep(0.05)
+        all_expected_nodes_observed_conflict = conflict_seen == expected_conflict_nodes
         conflict_seen = sorted(conflict_seen)
 
         time.sleep(0.5)  # let dissemination fully settle before inspecting flows
@@ -668,12 +698,13 @@ def gate_g8(net, nodes):
         "description": "ownership conflict (two nodes claim the same MAC) is detected and "
                         "rejected on every node that sees both, not silently resolved or "
                         "corrupted -- detection only, resolution out of scope",
-        "pass": bool(node1_claimed) and bool(node4_claimed) and len(conflict_seen) > 0
+        "pass": bool(node1_claimed) and bool(node4_claimed) and all_expected_nodes_observed_conflict
         and no_duplicate_flows and flows_unchanged_by_rejected_claim and unrelated_ok,
         "conflict_mac": CONFLICT_MAC,
         "node1_claimed_locally": bool(node1_claimed),
         "node4_claimed_locally": bool(node4_claimed),
         "nodes_observing_conflict": conflict_seen,
+        "all_expected_nodes_observed_conflict": all_expected_nodes_observed_conflict,
         "no_duplicate_flows_installed": no_duplicate_flows,
         "flows_unchanged_by_rejected_claim": flows_unchanged_by_rejected_claim,
         "unrelated_traffic_ok": unrelated_ok,

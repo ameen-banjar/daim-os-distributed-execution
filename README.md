@@ -12,6 +12,35 @@ related work on autonomous link recovery, cross-environment reproducibility,
 policy-conflict resolution, and intent assurance are separate, independent
 contributions with their own artifacts, not included here.
 
+## v1.1.0 (2026-08-12): two additional defects found and fixed
+
+A post-v1.0.0 code audit of the transport and instrumentation layers found and
+fixed two further real defects, on top of the four `v1.0.0` already reported:
+
+1. **G1 propagation latency measured nothing.** The callback reporting each
+   applied update received the raw struct decoded off the wire, and for a
+   freshly learned local record the *origin* sets `applied_at_ns` equal to
+   `learned_at_ns` before ever sending it — so every downstream latency
+   computation (`applied_at_ns - learned_at_ns`) subtracted a value from
+   itself, always exactly zero regardless of true delay. Fixed by stamping
+   `applied_at_ns` with the *receiver's* own `monotonic_ns()` immediately
+   before the callback fires (`daim_peer_transport.c`). Every
+   propagation-latency number in the paper was re-measured after this fix.
+2. **A live update could race past its own connection's handshake.**
+   `daim_peer_transport_disseminate` selected send targets by a connection's
+   `active` flag alone, set the instant a socket was accepted — before the
+   HELLO handshake or snapshot exchange even began — and `exchange_snapshots`
+   silently discarded any unexpected message type (`HOST_LOCATION_UPDATE`
+   included) that arrived during that window. Fixed with a second `ready`
+   flag, gated dissemination, and a bounded queue that applies any
+   early-arriving update once the connection's own snapshot phase completes,
+   instead of dropping it.
+
+Both are narrated in full, with the exact code paths and fixes, in the
+paper's Sections 6.8–6.9. All G1/G6/G7/G8 evidence in `results/` was
+re-generated after both fixes; the pre-fix v1.0.0 evidence is not included
+here (it remains on the `v1.0.0` release/tag for anyone who wants it).
+
 ## Relationship to Paper 1 and the DAIM-OS specification
 
 This artifact **extends, without modifying**, the C Core reconstructed by

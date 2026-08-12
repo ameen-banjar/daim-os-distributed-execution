@@ -24,12 +24,28 @@
 #define STOP_POLL_MS 50
 #define UNRESPONSIVE_PEER_TIMEOUT_MS 3000
 #define LISTEN_BACKLOG 64
+/* Bounds the queue exchange_snapshots() uses to hold HOST_LOCATION_UPDATE
+   messages that arrive during the handshake/snapshot window (see its own
+   comment). Generous for this prototype's gate scenarios (a handful of
+   local learns at most during one connection's brief setup window); an
+   overflow past this is counted, not silently ignored. */
+#define MAX_DEFERRED_UPDATES 16
 
 struct connection {
     int fd;
     int active;
+    /* Set only after this connection's handshake AND snapshot exchange
+       both complete (run_connection). disseminate() must gate on this, not
+       just active: active becomes true the instant the socket is accepted,
+       well before the peer is ready to receive steady-state messages. */
+    int ready;
     uint64_t peer_node_id;
     pthread_mutex_t send_lock;
+};
+
+struct deferred_update {
+    uint64_t origin_node_id;
+    struct daim_host_location loc;
 };
 
 struct configured_peer {
@@ -292,6 +308,16 @@ static int exchange_snapshots(struct daim_peer_transport *t, struct connection *
     struct daim_peer_header hdr;
     int applied = 0;
     int my_snapshot_done = 0;
+    /* A peer's disseminate() only requires *its own* view of this
+       connection's active flag, which is set before this handshake/
+       snapshot exchange completes -- so a HOST_LOCATION_UPDATE the peer
+       sends because of a concurrent local learn on its side can legally
+       arrive here, mid-exchange, before either side is "ready". Queue it
+       and apply it after the snapshot completes, instead of dropping it:
+       silently losing a live update here is not below this paper's own
+       claimed guarantees. */
+    struct deferred_update deferred[MAX_DEFERRED_UPDATES];
+    size_t deferred_count = 0;
 
     if (send_framed(t, conn, DAIM_PEER_MSG_STATE_SNAPSHOT_REQUEST, NULL, 0) != 0) {
         return -1;
@@ -319,6 +345,7 @@ static int exchange_snapshots(struct daim_peer_transport *t, struct connection *
                 break;
             }
             result = daim_host_import_snapshot_entry(&loc);
+            loc.applied_at_ns = monotonic_ns();
             if (t->callbacks.on_apply) {
                 t->callbacks.on_apply(t->callbacks.context, hdr.origin_node_id, &loc, result);
             }
@@ -331,11 +358,48 @@ static int exchange_snapshots(struct daim_peer_transport *t, struct connection *
         case DAIM_PEER_MSG_STATE_SNAPSHOT_END:
             my_snapshot_done = 1;
             break;
-        default:
-            /* Any other message type arriving mid-setup is unexpected
-               here and is dropped defensively; the steady-state loop
-               handles the full message set. */
+        case DAIM_PEER_MSG_HOST_LOCATION_UPDATE: {
+            struct daim_host_location loc;
+            if (daim_peer_decode_host_location(payload, hdr.payload_length, &loc) != 0) {
+                break;
+            }
+            if (deferred_count < MAX_DEFERRED_UPDATES) {
+                deferred[deferred_count].origin_node_id = hdr.origin_node_id;
+                deferred[deferred_count].loc = loc;
+                deferred_count++;
+            } else {
+                pthread_mutex_lock(&t->lock);
+                t->stats.deferred_updates_overflow_dropped++;
+                pthread_mutex_unlock(&t->lock);
+            }
             break;
+        }
+        default:
+            /* HEARTBEAT/ACK/ERROR mid-setup: not required for the
+               prototype gate in steady state either (handle_message's own
+               default case), so dropping them here too is consistent, not
+               a new gap. */
+            break;
+        }
+    }
+
+    /* Apply anything queued above now that both sides have finished their
+       snapshot exchange, using the same path and ordering rules a
+       steady-state HOST_LOCATION_UPDATE would (daim_host_apply_remote) --
+       these are live updates, not snapshot entries, so they are not
+       counted in `applied`. */
+    {
+        size_t i;
+        for (i = 0; i < deferred_count; ++i) {
+            enum daim_host_apply_result result = daim_host_apply_remote(&deferred[i].loc);
+            deferred[i].loc.applied_at_ns = monotonic_ns();
+            if (t->callbacks.on_apply) {
+                t->callbacks.on_apply(t->callbacks.context, deferred[i].origin_node_id,
+                                       &deferred[i].loc, result);
+            }
+            pthread_mutex_lock(&t->lock);
+            t->stats.deferred_updates_replayed++;
+            pthread_mutex_unlock(&t->lock);
         }
     }
     return applied;
@@ -355,6 +419,14 @@ static void handle_message(struct daim_peer_transport *t, struct connection *con
             return;
         }
         result = daim_host_apply_remote(&loc);
+        /* loc.applied_at_ns as decoded off the wire is the *origin's* own
+           value (== learned_at_ns for a fresh local learn -- see
+           daim_distributed_state.c's local-learn path), not this node's
+           receive time. Overwrite it here so it actually is Tapply at the
+           receiver, matching this callback's documented contract and
+           giving propagation latency (applied_at_ns - learned_at_ns) a
+           real, non-degenerate value instead of always exactly zero. */
+        loc.applied_at_ns = monotonic_ns();
         if (t->callbacks.on_apply) {
             t->callbacks.on_apply(t->callbacks.context, hdr->origin_node_id, &loc, result);
         }
@@ -383,6 +455,7 @@ static long acquire_connection_slot(struct daim_peer_transport *t, int fd)
         if (!t->conns[i].active) {
             t->conns[i].fd = fd;
             t->conns[i].active = 1;
+            t->conns[i].ready = 0;
             t->conns[i].peer_node_id = 0;
             pthread_mutex_unlock(&t->lock);
             return i;
@@ -453,6 +526,10 @@ static void run_connection(struct daim_peer_transport *t, int fd, int is_outboun
         fire_lifecycle(t, "snapshot_received", conn->peer_node_id, (uint64_t)applied);
     }
 
+    pthread_mutex_lock(&t->lock);
+    conn->ready = 1;
+    pthread_mutex_unlock(&t->lock);
+
     for (;;) {
         uint8_t payload[DAIM_PEER_MAX_PAYLOAD_SIZE];
         struct daim_peer_header hdr;
@@ -481,6 +558,7 @@ done:
     close(fd);
     pthread_mutex_lock(&t->lock);
     conn->active = 0;
+    conn->ready = 0;
     pthread_mutex_unlock(&t->lock);
     pthread_mutex_unlock(&conn->send_lock);
 }
@@ -712,7 +790,12 @@ int daim_peer_transport_disseminate(struct daim_peer_transport *t, const struct 
 
     pthread_mutex_lock(&t->lock);
     for (i = 0; i < MAX_CONNECTIONS; ++i) {
-        if (t->conns[i].active) {
+        /* ready, not just active: active is set the instant a socket is
+           accepted, before HELLO/snapshot exchange even start (see struct
+           connection's comment). Sending to a connection that isn't ready
+           yet is exactly the race that used to let a live update arrive
+           mid-snapshot-exchange and get silently dropped there. */
+        if (t->conns[i].active && t->conns[i].ready) {
             snapshot[snapshot_count++] = &t->conns[i];
         }
     }
