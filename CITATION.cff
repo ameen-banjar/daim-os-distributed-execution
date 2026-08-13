@@ -6,11 +6,10 @@ authors:
   - family-names: Banjar
     given-names: Ameen
     orcid: "https://orcid.org/0000-0002-0871-5153"
-version: 1.2.0
+version: 1.2.1
 date-released: 2026-08-13
 license: Apache-2.0
 repository-code: "https://github.com/ameen-banjar/daim-os-distributed-execution"
-doi: "10.5281/zenodo.21918399"
 abstract: >-
   Reproducibility artifact for "Distributing the DAIM-OS Table-and-Signal
   Contract: Independently Executing Per-Switch Cores, Explicit State

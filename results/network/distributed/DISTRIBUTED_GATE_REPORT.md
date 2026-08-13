@@ -1,5 +1,13 @@
 # Distributed DAIM-OS — Milestone 1 Prototype Gate Report
 
+> **SUPERSEDED — PRE-FIX NUMBERS, NOT THE REPORTED RESULTS.** Written against the `v1.0.0` code
+> state and never regenerated across the `v1.1.0`/`v1.2.0` fix rounds; numbers below (e.g.
+> propagation latency reported as "0.0 ms") reflect defects the manuscript's Sections 6.8–6.10
+> describe finding and fixing. Kept unmodified per this repository's no-delete evidence-retention
+> discipline. **For the current, reported results, use the paper's own Tables 1–4 and Sections
+> 6.2–6.5, 6.10, or the latest timestamped `gate_results_*.json`/`manifest_*.json` files in this
+> directory (sort by filename timestamp).**
+
 Date: 9–10 August 2026
 Environment: Ubuntu 24.04 ARM64 (`daim-lab-qemu`), Open vSwitch 3.3.4, Mininet 2.3.0, Os-Ken 2.6.0.
 G1–G6 were first proven on the VM's original 4 vCPU/6GiB allocation; the final G1–G8 runs below

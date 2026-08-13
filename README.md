@@ -147,10 +147,15 @@ Paper 1's artifact as an explicit baseline (`daim_bridge_controller.py`,
   hazard, fixed in `daim_distributed_node.py`) was found -- included for
   that reason, not because more CPU was the fix.
 - `results/network/distributed/` — every gate and campaign run's raw
-  evidence: `DISTRIBUTED_GATE_REPORT.md` and `PAPER2_EVIDENCE_CAMPAIGN.md`
-  (the two narrative reports the paper's Results section is drawn from
-  directly), per-run `raw_events*.jsonl` (gzip-compressed above 2 MB --
-  `gunzip` or `zcat` before use), `gate_results*.json`,
+  evidence. `DISTRIBUTED_GATE_REPORT.md` and `PAPER2_EVIDENCE_CAMPAIGN.md`
+  are the original `v1.0.0`-era narrative write-ups; both are now marked
+  **SUPERSEDED / PRE-FIX** at the top and kept only as a historical
+  record — they were never regenerated across the `v1.1.0`/`v1.2.0` fix
+  rounds, so their numbers do not match the paper. **The paper's own
+  Tables 1–4 and Sections 6.2–6.5, 6.10 are the current results**, drawn
+  directly from the latest timestamped files below, not from either
+  narrative report. Per-run `raw_events*.jsonl` (gzip-compressed above
+  2 MB -- `gunzip` or `zcat` before use), `gate_results*.json`,
   `campaign_*.json`, `scaling_summary*.{json,csv}`, and `manifest_*.json`
   files with SHA-256 checksums of their companion outputs. Failed
   repetitions (including the pre-fix 29/30 campaign run Section 6.7 of the
@@ -205,8 +210,10 @@ See the paper's Sections 5-6 for the exact meaning of every field in the
 JSON/JSONL outputs (e.g. `origin_node_id`, `owner_epoch`, `sequence`,
 `applied_at_ns`/`learned_at_ns`, `detection_time_s`, `reconvergence_time_s`).
 `DISTRIBUTED_GATE_REPORT.md` and `PAPER2_EVIDENCE_CAMPAIGN.md` in
-`results/network/distributed/` narrate every number the paper cites, with
-pointers to the exact source file for each.
+`results/network/distributed/` narrate the original `v1.0.0` evidence and the
+field meanings, but are marked **SUPERSEDED / PRE-FIX** at the top and do not
+carry the paper's current numbers -- see the "What is in this repository"
+section above for where the current results actually are.
 
 ## Manuscript
 

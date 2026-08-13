@@ -1,5 +1,19 @@
 # Paper 2 Evidence-Gate Campaign — 30-Repetition Statistics + Three Baselines
 
+> **SUPERSEDED — PRE-FIX NUMBERS, NOT THE REPORTED RESULTS.** This narrative was written
+> against the `v1.0.0` code state and was never regenerated across the `v1.1.0`/`v1.2.0` fix
+> rounds, so every number below (e.g. G1 propagation latency reported as "0.0 ms", G7 convergence
+> reported in whole seconds up to ~21 s at N=32) reflects defects the manuscript's Sections
+> 6.8–6.10 describe finding and fixing, not the results the paper actually cites. Kept here
+> unmodified, per this repository's no-delete evidence-retention discipline, as a record of what
+> the pre-fix campaign showed. **For the current, reported results, use:**
+> - The paper's own Tables 1–4 and Sections 6.2–6.5, 6.10 (source of truth).
+> - The latest timestamped raw evidence in this directory: `campaign_distributed_raw_*.json` /
+>   `campaign_distributed_manifest_*.json` (G1–G6, G8) and `scaling_campaign_g7_*.json` /
+>   `scaling_summary_g7_*.{json,csv}` (G7) — sort by timestamp in the filename; the newest set
+>   for each is the one the manuscript's current numbers were computed from.
+> - `CITATION.cff`'s `version`/`doi` fields for which release this checkout corresponds to.
+
 Date: 10 August 2026
 Environment: Ubuntu 24.04 ARM64 (`daim-lab-qemu`, 6 vCPU/10GiB), Open vSwitch 3.3.4, Mininet 2.3.0,
 Os-Ken 2.6.0
