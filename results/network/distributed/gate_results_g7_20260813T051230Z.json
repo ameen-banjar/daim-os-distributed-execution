@@ -1,0 +1,46 @@
+{
+  "n16_rep0": {
+    "n_nodes": 16,
+    "pass": true,
+    "fatal_error": null,
+    "convergence_s": 0.02651260100537911,
+    "connections_observed": 240,
+    "connections_expected": 240,
+    "apply_events_total": 630,
+    "lifecycle_events_total": 736,
+    "propagation": {
+      "n_repetitions_sent": 30,
+      "n_samples": 480,
+      "observing_nodes": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "propagation_ok": true,
+      "latency_summary_ms": {
+        "n": 480,
+        "median": 0.480184,
+        "p95": 1.0833128499999978,
+        "p99": 1.584185179999998,
+        "maximum": 1.834612,
+        "median_bootstrap_95_ci": [
+          0.4505369375,
+          0.514663
+        ]
+      }
+    },
+    "wall_time_s": 16.25998577899736
+  }
+}

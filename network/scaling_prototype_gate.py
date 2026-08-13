@@ -10,13 +10,27 @@ For each N in NODE_COUNTS, this module builds a fresh N-node cluster (its
 own Mininet topology, torn down and rebuilt for the next N -- not one
 topology growing in place), measures:
 
-  convergence_s   wall-clock from the point every node process is already
-                   running and OpenFlow-ready (i.e. excluding the staged,
-                   deterministic per-node launch delay build_cluster uses)
-                   to every node reporting a "snapshot_received" lifecycle
-                   event for all N-1 of its peers -- state actually synced,
-                   not merely TCP+HELLO connected (the full-mesh analogue
-                   of G6's reconvergence marker).
+  convergence_s   wall-clock from a single barrier release -- the instant
+                   every node process is already running and OpenFlow-ready
+                   AND every node has been simultaneously signalled to start
+                   dialing its peers for the first time -- to every node
+                   reporting a "snapshot_received" lifecycle event for all
+                   N-1 of its peers, counting only events recorded at or
+                   after that release. Earlier revisions started the clock
+                   after build_cluster()'s staged, one-node-every-0.5s
+                   launch without gating when dialing itself began, so an
+                   early-spawned node's connection to an already-running
+                   peer could fully converge *during* that staged launch,
+                   before the clock started -- silently excluding real
+                   protocol work from the measurement and understating
+                   convergence time by an amount that grew with the staged
+                   launch's own duration, i.e. with N. The barrier (see
+                   daim_distributed_controller.py's DAIM_PEER_BARRIER_FILE)
+                   makes "peers start dialing" and "the clock starts" the
+                   same instant instead of two independently-timed ones, so
+                   the measurement is of the mesh's actual convergence work,
+                   not of how much of that work happened to fit inside the
+                   harness's own launch staggering.
   propagation      the highest-numbered host pings host 1, forcing a fresh
                    table-miss each repetition; every other node's "apply"
                    event for that origin is timed learned_at_ns ->
@@ -50,6 +64,7 @@ import random
 import statistics
 import subprocess
 import sys
+import tempfile
 import threading
 import time
 import traceback
@@ -131,7 +146,7 @@ def chain_ports(node_id, n):
 
 
 class NodeProcess:
-    def __init__(self, node_id, n, owner_epoch, peer_addrs):
+    def __init__(self, node_id, n, owner_epoch, peer_addrs, barrier_file):
         self.node_id = node_id
         port_lower, port_higher = chain_ports(node_id, n)
         env = dict(os.environ)
@@ -143,6 +158,7 @@ class NodeProcess:
             "DAIM_PORT_TOWARD_HIGHER": str(port_higher),
             "DAIM_PEER_LISTEN_PORT": str(PEER_BASE_PORT + node_id),
             "DAIM_PEER_ADDRS": ",".join(peer_addrs or []),
+            "DAIM_PEER_BARRIER_FILE": barrier_file,
         })
         self.ofp_port = OFP_BASE_PORT + node_id
         self.peer_port = PEER_BASE_PORT + node_id
@@ -195,7 +211,16 @@ class NodeProcess:
 
 def build_cluster(n, ready_timeout_s):
     """Same i<j non-redundant full-mesh policy and retry discipline as
-    distributed_prototype_gate.py's start_cluster, generalized to N."""
+    distributed_prototype_gate.py's start_cluster, generalized to N.
+
+    Every node is launched with peer dialing held behind a barrier file
+    (DAIM_PEER_BARRIER_FILE, see daim_distributed_controller.py) that does
+    not exist yet, so no node starts dialing during this function's own
+    staged, one-node-every-SPAWN_STAGGER_S launch loop. Returns (nodes,
+    barrier_path) with the barrier file's path reserved but not yet
+    created -- the caller creates it (a single os.close/open touch) at the
+    exact instant it wants convergence timing to start, which is what makes
+    "every node begins dialing" and "the clock starts" the same instant."""
     owner_epochs = {i: DEFAULT_OWNER_EPOCH for i in range(1, n + 1)}
     peer_addrs_by_node = {
         i: [f"127.0.0.1:{PEER_BASE_PORT + j}" for j in range(i + 1, n + 1)]
@@ -204,9 +229,12 @@ def build_cluster(n, ready_timeout_s):
     last_exc = None
     for attempt in range(1, CLUSTER_START_MAX_ATTEMPTS + 1):
         nodes = {}
+        barrier_fd, barrier_path = tempfile.mkstemp(prefix="daim_g7_barrier_")
+        os.close(barrier_fd)
+        os.remove(barrier_path)  # reserve the path only; must not exist until released
         try:
             for i in range(1, n + 1):
-                nodes[i] = NodeProcess(i, n, owner_epochs[i], peer_addrs_by_node[i])
+                nodes[i] = NodeProcess(i, n, owner_epochs[i], peer_addrs_by_node[i], barrier_path)
                 time.sleep(SPAWN_STAGGER_S)
             for i, node in nodes.items():
                 subprocess.run(["ovs-vsctl", "set-controller", f"s{i}", f"tcp:127.0.0.1:{node.ofp_port}"],
@@ -215,7 +243,7 @@ def build_cluster(n, ready_timeout_s):
                 ready = node.wait_for(lambda e: e.get("event") == "ready", ready_timeout_s)
                 if ready is None:
                     raise RuntimeError(f"node{i} never became ready (n={n})")
-            return nodes
+            return nodes, barrier_path
         except Exception as exc:
             last_exc = exc
             record_raw("gate_driver", {
@@ -223,6 +251,8 @@ def build_cluster(n, ready_timeout_s):
                 "attempt": attempt, "max_attempts": CLUSTER_START_MAX_ATTEMPTS, "detail": str(exc),
             })
             stop_cluster(nodes)
+            if os.path.exists(barrier_path):
+                os.remove(barrier_path)
             subprocess.run(["pkill", "-9", "-f", str(CONTROLLER_APP)], check=False,
                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             time.sleep(1.0)
@@ -235,22 +265,38 @@ def stop_cluster(nodes):
         node.terminate()
 
 
-def wait_for_full_mesh(nodes, n, timeout_s):
+def wait_for_full_mesh(nodes, n, timeout_s, since_monotonic_s):
     """Returns the monotonic timestamp at which every node has reported a
     'snapshot_received' lifecycle event for all n-1 of its peers, or None on
     timeout. Deliberately not 'connected': that event fires right after
     HELLO, before exchange_snapshots() even starts (daim_peer_transport.c),
     so counting it would measure TCP+HELLO establishment, not distributed-
     state convergence -- 'snapshot_received' is the event that actually
-    means this node's state is synced with that peer."""
+    means this node's state is synced with that peer.
+
+    Only counts events recorded at or after since_monotonic_s (the barrier-
+    release instant). Peer dialing cannot start before the barrier file
+    exists (daim_distributed_controller.py), so in principle no
+    snapshot_received should ever predate it -- this filter is defense in
+    depth against exactly the failure mode this function used to have
+    (counting historical events that happened before the harness started
+    timing), not a mechanism this design depends on to be correct."""
     expected = n - 1
     deadline = time.monotonic() + timeout_s
     while time.monotonic() < deadline:
         if all(len(node.events_matching(
-                lambda e: e.get("event") == "lifecycle" and e.get("name") == "snapshot_received")) >= expected
+                lambda e: e.get("event") == "lifecycle" and e.get("name") == "snapshot_received"
+                and e.get("recorded_monotonic_s", 0) >= since_monotonic_s)) >= expected
                 for node in nodes.values()):
             return time.monotonic()
-        time.sleep(0.05)
+        # 1 ms, not the 50 ms this loop used before: convergence at small N
+        # is fast enough (tens of ms) that a coarser poll interval becomes
+        # the dominant term in convergence_s itself rather than a
+        # negligible measurement overhead -- confirmed by an N=2/N=4 smoke
+        # run at 50 ms polling landing suspiciously close to 50 ms for both
+        # sizes. 1 ms costs nothing extra at the N<=32, few-second scale
+        # this gate runs at.
+        time.sleep(0.001)
     return None
 
 
@@ -335,6 +381,7 @@ def run_one_size(n):
     record_raw("gate_driver", {"event": "size_start", "n_nodes": n})
     net = None
     nodes = {}
+    barrier_path = None
     outcome = {"n_nodes": n, "pass": False, "fatal_error": None}
     launch_start = time.monotonic()  # covers the whole repetition, incl. staged node launch
     try:
@@ -349,16 +396,24 @@ def run_one_size(n):
 
         launch_start = time.monotonic()
         ready_timeout = READY_TIMEOUT_BASE_S + READY_TIMEOUT_PER_NODE_S * n
-        nodes = build_cluster(n, ready_timeout)
+        nodes, barrier_path = build_cluster(n, ready_timeout)
 
-        # mesh_start, not launch_start: build_cluster's own N x
-        # SPAWN_STAGGER_S staged launch (0.5 s/node) is deliberate harness
-        # policy, not protocol behaviour -- at N=32 that alone is 16 s.
-        # convergence_s should measure only the distributed-state-sync work
-        # that begins once every node process already exists and is ready.
+        # Barrier release, not "after build_cluster() returns": every node
+        # process already exists and is OpenFlow-ready at this point (that
+        # is what build_cluster's own ready-wait loop confirmed), but until
+        # this file is created none of them has dialed a single peer --
+        # DAIM_PEER_BARRIER_FILE holds add_peer() back in
+        # daim_distributed_controller.py specifically so this instant is
+        # also the instant real protocol work (dialing, HELLO, snapshot
+        # exchange) can first begin, closing the gap the previous
+        # "convergence_s = mesh_ready_at - mesh_start" definition had: that
+        # version excluded build_cluster's staged launch from the
+        # *measurement window* without ever preventing the mesh from
+        # actually converging *during* that window.
+        Path(barrier_path).touch()
         mesh_start = time.monotonic()
         mesh_timeout = MESH_TIMEOUT_BASE_S + MESH_TIMEOUT_PER_NODE_S * n
-        mesh_ready_at = wait_for_full_mesh(nodes, n, mesh_timeout)
+        mesh_ready_at = wait_for_full_mesh(nodes, n, mesh_timeout, mesh_start)
         convergence_s = (mesh_ready_at - mesh_start) if mesh_ready_at is not None else None
 
         propagation = measure_propagation(net, nodes, n) if n >= 2 else {
@@ -387,6 +442,8 @@ def run_one_size(n):
         if net is not None:
             net.stop()
         subprocess.run(["mn", "-c"], check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if barrier_path and os.path.exists(barrier_path):
+            os.remove(barrier_path)
 
     outcome["wall_time_s"] = time.monotonic() - launch_start
     record_raw("gate_driver", {"event": "size_done", "n_nodes": n,

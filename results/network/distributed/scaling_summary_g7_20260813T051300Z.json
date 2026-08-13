@@ -1,0 +1,18 @@
+[
+  {
+    "n_nodes": 32,
+    "repetition": 0,
+    "pass": true,
+    "convergence_s": 0.08805540499452036,
+    "connections_observed": 992,
+    "connections_expected": 992,
+    "propagation_n_samples": 961,
+    "propagation_latency_median_ms": 1.032701,
+    "propagation_latency_p95_ms": 4.481926,
+    "propagation_latency_p99_ms": 10.074102399999973,
+    "apply_events_total": 992,
+    "lifecycle_events_total": 3008,
+    "wall_time_s": 27.658266186997935,
+    "fatal_error": null
+  }
+]

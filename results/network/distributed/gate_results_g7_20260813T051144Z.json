@@ -1,0 +1,100 @@
+{
+  "n2_rep0": {
+    "n_nodes": 2,
+    "pass": true,
+    "fatal_error": null,
+    "convergence_s": 0.0034480999966035597,
+    "connections_observed": 2,
+    "connections_expected": 2,
+    "apply_events_total": 40,
+    "lifecycle_events_total": 8,
+    "propagation": {
+      "n_repetitions_sent": 30,
+      "n_samples": 35,
+      "observing_nodes": [
+        1
+      ],
+      "propagation_ok": true,
+      "latency_summary_ms": {
+        "n": 35,
+        "median": 0.130832,
+        "p95": 0.2907852999999999,
+        "p99": 0.3742212799999996,
+        "maximum": 0.410247,
+        "median_bootstrap_95_ci": [
+          0.098416,
+          0.144416
+        ]
+      }
+    },
+    "wall_time_s": 7.8483495239997865
+  },
+  "n4_rep0": {
+    "n_nodes": 4,
+    "pass": true,
+    "fatal_error": null,
+    "convergence_s": 0.012030789002892561,
+    "connections_observed": 12,
+    "connections_expected": 12,
+    "apply_events_total": 111,
+    "lifecycle_events_total": 40,
+    "propagation": {
+      "n_repetitions_sent": 30,
+      "n_samples": 96,
+      "observing_nodes": [
+        1,
+        2,
+        3
+      ],
+      "propagation_ok": true,
+      "latency_summary_ms": {
+        "n": 96,
+        "median": 0.1698745,
+        "p95": 0.5291,
+        "p99": 0.5894170999999999,
+        "maximum": 0.641745,
+        "median_bootstrap_95_ci": [
+          0.1441865,
+          0.1983507374999999
+        ]
+      }
+    },
+    "wall_time_s": 9.037942103001114
+  },
+  "n8_rep0": {
+    "n_nodes": 8,
+    "pass": true,
+    "fatal_error": null,
+    "convergence_s": 0.012407577996782493,
+    "connections_observed": 56,
+    "connections_expected": 56,
+    "apply_events_total": 280,
+    "lifecycle_events_total": 176,
+    "propagation": {
+      "n_repetitions_sent": 30,
+      "n_samples": 224,
+      "observing_nodes": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "propagation_ok": true,
+      "latency_summary_ms": {
+        "n": 224,
+        "median": 0.3067685,
+        "p95": 0.6958047999999999,
+        "p99": 0.83089316,
+        "maximum": 0.909869,
+        "median_bootstrap_95_ci": [
+          0.277623,
+          0.3348725
+        ]
+      }
+    },
+    "wall_time_s": 11.514733126001374
+  }
+}

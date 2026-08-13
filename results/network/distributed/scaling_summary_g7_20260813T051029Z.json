@@ -1,0 +1,34 @@
+[
+  {
+    "n_nodes": 2,
+    "repetition": 0,
+    "pass": true,
+    "convergence_s": 0.050194937000924256,
+    "connections_observed": 2,
+    "connections_expected": 2,
+    "propagation_n_samples": 32,
+    "propagation_latency_median_ms": 0.139291,
+    "propagation_latency_p95_ms": 0.30265204999999995,
+    "propagation_latency_p99_ms": 0.7280974900000008,
+    "apply_events_total": 35,
+    "lifecycle_events_total": 8,
+    "wall_time_s": 9.558659317997808,
+    "fatal_error": null
+  },
+  {
+    "n_nodes": 4,
+    "repetition": 0,
+    "pass": true,
+    "convergence_s": 0.050957680999999866,
+    "connections_observed": 12,
+    "connections_expected": 12,
+    "propagation_n_samples": 99,
+    "propagation_latency_median_ms": 0.137624,
+    "propagation_latency_p95_ms": 0.36442649999999993,
+    "propagation_latency_p99_ms": 0.40116499999999955,
+    "apply_events_total": 111,
+    "lifecycle_events_total": 40,
+    "wall_time_s": 8.933688745004474,
+    "fatal_error": null
+  }
+]

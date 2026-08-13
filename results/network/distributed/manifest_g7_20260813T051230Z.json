@@ -1,0 +1,24 @@
+{
+  "run_timestamp": "20260813T051230Z",
+  "run_id": "paper2-g7-scaling-20260813T051230Z",
+  "random_seed": 20260809,
+  "node_counts": [
+    16
+  ],
+  "repetitions_per_n": 1,
+  "environment": {
+    "python": "3.12.3",
+    "platform": "Linux-6.8.0-136-generic-aarch64-with-glibc2.39",
+    "kernel": "6.8.0-136-generic"
+  },
+  "all_sizes_passed": true,
+  "size_pass": {
+    "n16_rep0": true
+  },
+  "files": {
+    "raw_events_g7_20260813T051230Z.jsonl": "4bb92eb5279cd56f7791d766c03e641d5ac087bf5a5fbab16e783832320e11f2",
+    "gate_results_g7_20260813T051230Z.json": "d1fa6a718363eba381c3ad335fdbbc774890eefccda76c2e4d20f3b5b7885691",
+    "scaling_summary_g7_20260813T051230Z.json": "79ab700d9f7cb0df44bf75df5814b6e685952639a9b79b6317e47015928d2d42",
+    "scaling_summary_g7_20260813T051230Z.csv": "fad62bc121576e3fb4a80d4fdc625563f52f58d221e08fcb79674b0020b2904c"
+  }
+}

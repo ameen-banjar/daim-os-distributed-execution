@@ -27,8 +27,12 @@
 /* Bounds the queue exchange_snapshots() uses to hold HOST_LOCATION_UPDATE
    messages that arrive during the handshake/snapshot window (see its own
    comment). Generous for this prototype's gate scenarios (a handful of
-   local learns at most during one connection's brief setup window); an
-   overflow past this is counted, not silently ignored. */
+   local learns at most during one connection's brief setup window). An
+   overflow past this bound aborts and reconnects this one connection
+   (see the overflow branch below) rather than dropping the update: no
+   fixed bound can be unconditionally large enough, so correctness cannot
+   rest on this constant being "big enough" -- it only has to be big
+   enough that the forced-reconnect path stays rare. */
 #define MAX_DEFERRED_UPDATES 16
 
 struct connection {
@@ -315,7 +319,10 @@ static int exchange_snapshots(struct daim_peer_transport *t, struct connection *
        arrive here, mid-exchange, before either side is "ready". Queue it
        and apply it after the snapshot completes, instead of dropping it:
        silently losing a live update here is not below this paper's own
-       claimed guarantees. */
+       claimed guarantees. If the bounded queue itself fills (the overflow
+       branch below), this connection is aborted and reconnected rather
+       than silently dropping the update that didn't fit -- see there for
+       why that is still not a data-loss path. */
     struct deferred_update deferred[MAX_DEFERRED_UPDATES];
     size_t deferred_count = 0;
 
@@ -368,9 +375,22 @@ static int exchange_snapshots(struct daim_peer_transport *t, struct connection *
                 deferred[deferred_count].loc = loc;
                 deferred_count++;
             } else {
+                /* The bounded queue is full. Do not drop this update: abort
+                   this connection's setup instead, so the caller
+                   (run_connection) tears it down and the dialer's own
+                   retry loop (dial_thread_main) reconnects and re-runs
+                   exchange_snapshots from scratch. By the time that
+                   happens, the origin that sent this update has already
+                   applied it to its own local table (that is why it was
+                   disseminating it), so the fresh STATE_SNAPSHOT_ENTRY
+                   pass the reconnect triggers picks it up as ordinary
+                   snapshot state -- no update is permanently lost, only
+                   delayed behind a reconnect. This is the same recovery
+                   path an actual network partition already relies on. */
                 pthread_mutex_lock(&t->lock);
-                t->stats.deferred_updates_overflow_dropped++;
+                t->stats.deferred_updates_overflow_forced_reconnects++;
                 pthread_mutex_unlock(&t->lock);
+                return -1;
             }
             break;
         }

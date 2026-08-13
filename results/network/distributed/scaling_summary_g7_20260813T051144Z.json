@@ -1,0 +1,50 @@
+[
+  {
+    "n_nodes": 2,
+    "repetition": 0,
+    "pass": true,
+    "convergence_s": 0.0034480999966035597,
+    "connections_observed": 2,
+    "connections_expected": 2,
+    "propagation_n_samples": 35,
+    "propagation_latency_median_ms": 0.130832,
+    "propagation_latency_p95_ms": 0.2907852999999999,
+    "propagation_latency_p99_ms": 0.3742212799999996,
+    "apply_events_total": 40,
+    "lifecycle_events_total": 8,
+    "wall_time_s": 7.8483495239997865,
+    "fatal_error": null
+  },
+  {
+    "n_nodes": 4,
+    "repetition": 0,
+    "pass": true,
+    "convergence_s": 0.012030789002892561,
+    "connections_observed": 12,
+    "connections_expected": 12,
+    "propagation_n_samples": 96,
+    "propagation_latency_median_ms": 0.1698745,
+    "propagation_latency_p95_ms": 0.5291,
+    "propagation_latency_p99_ms": 0.5894170999999999,
+    "apply_events_total": 111,
+    "lifecycle_events_total": 40,
+    "wall_time_s": 9.037942103001114,
+    "fatal_error": null
+  },
+  {
+    "n_nodes": 8,
+    "repetition": 0,
+    "pass": true,
+    "convergence_s": 0.012407577996782493,
+    "connections_observed": 56,
+    "connections_expected": 56,
+    "propagation_n_samples": 224,
+    "propagation_latency_median_ms": 0.3067685,
+    "propagation_latency_p95_ms": 0.6958047999999999,
+    "propagation_latency_p99_ms": 0.83089316,
+    "apply_events_total": 280,
+    "lifecycle_events_total": 176,
+    "wall_time_s": 11.514733126001374,
+    "fatal_error": null
+  }
+]

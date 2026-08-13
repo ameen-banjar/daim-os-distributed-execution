@@ -41,10 +41,13 @@ struct daim_peer_transport_stats {
        finished, rather than dropped -- see exchange_snapshots(). */
     uint64_t deferred_updates_replayed;
     /* Same window, but the per-connection deferred queue (MAX_DEFERRED_
-       UPDATES) was already full; counted, not silently dropped. Zero in
-       every gate this paper reports; present so a future run that hits it
-       is visible in the evidence rather than silently lossy. */
-    uint64_t deferred_updates_overflow_dropped;
+       UPDATES) was already full when another update arrived: this
+       connection was aborted and reconnected (see exchange_snapshots())
+       rather than dropping the update, so no data is lost -- only
+       delayed behind a fresh snapshot pull. Zero in every gate this
+       paper reports; present so a future run that hits it is visible in
+       the evidence rather than silent. */
+    uint64_t deferred_updates_overflow_forced_reconnects;
 };
 
 /* Fired for every apply attempt (local snapshot entries during resync, and

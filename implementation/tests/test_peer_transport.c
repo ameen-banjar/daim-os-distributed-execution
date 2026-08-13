@@ -13,17 +13,23 @@
    transport is correctly framed, received, decoded, and handed to the
    apply path on the other end. */
 #include "daim_distributed_state.h"
+#include "daim_peer_protocol.h"
 #include "daim_peer_transport.h"
 
+#include <arpa/inet.h>
 #include <assert.h>
+#include <netinet/in.h>
 #include <pthread.h>
 #include <string.h>
+#include <sys/socket.h>
+#include <sys/time.h>
 #include <time.h>
 #include <unistd.h>
 
 #define TRANSPORT_A_PORT 19100
 #define TRANSPORT_B_PORT 19101
 #define TRANSPORT_C_PORT 19102
+#define TRANSPORT_D_PORT 19103
 
 struct event_log {
     pthread_mutex_t lock;
@@ -110,6 +116,51 @@ static int b_applied(void)
     v = g_log_b.applied_count;
     pthread_mutex_unlock(&g_log_b.lock);
     return v >= 1;
+}
+
+/* Minimal raw-socket peer for the deferred-update-overflow test below: it
+   speaks just enough of the wire protocol (daim_peer_protocol.h's pure
+   encode/decode, no sockets of its own) to complete the HELLO handshake and
+   then deliberately never sends STATE_SNAPSHOT_END, holding the real
+   transport under test inside exchange_snapshots()'s receive loop so
+   MAX_DEFERRED_UPDATES + 1 HOST_LOCATION_UPDATE frames can be pushed at it
+   while it is still "mid-setup". */
+static int raw_send_frame(int fd, uint8_t message_type, uint64_t origin_node_id,
+                           const uint8_t *payload, uint32_t payload_len)
+{
+    uint8_t buf[DAIM_PEER_HEADER_SIZE + DAIM_PEER_MAX_PAYLOAD_SIZE];
+    struct daim_peer_header hdr;
+    hdr.protocol_version = DAIM_PEER_PROTOCOL_VERSION;
+    hdr.message_type = message_type;
+    hdr.origin_node_id = origin_node_id;
+    hdr.message_id = 0;
+    hdr.payload_length = payload_len;
+    hdr.send_time_ns = 0;
+    daim_peer_encode_header(buf, &hdr);
+    if (payload_len > 0) {
+        memcpy(buf + DAIM_PEER_HEADER_SIZE, payload, payload_len);
+    }
+    return send(fd, buf, DAIM_PEER_HEADER_SIZE + payload_len, 0) ==
+                   (ssize_t)(DAIM_PEER_HEADER_SIZE + payload_len)
+               ? 0 : -1;
+}
+
+static int raw_recv_frame(int fd, struct daim_peer_header *hdr, uint8_t *payload_buf, size_t cap)
+{
+    uint8_t header_buf[DAIM_PEER_HEADER_SIZE];
+    if (recv(fd, header_buf, DAIM_PEER_HEADER_SIZE, MSG_WAITALL) != DAIM_PEER_HEADER_SIZE) {
+        return -1;
+    }
+    if (daim_peer_decode_header(header_buf, DAIM_PEER_HEADER_SIZE, hdr) != 0) {
+        return -1;
+    }
+    if (hdr->payload_length > 0) {
+        if (hdr->payload_length > cap ||
+            recv(fd, payload_buf, hdr->payload_length, MSG_WAITALL) != (ssize_t)hdr->payload_length) {
+            return -1;
+        }
+    }
+    return 0;
 }
 
 static void *concurrent_sender(void *context)
@@ -240,6 +291,88 @@ int main(void)
         assert(stats_c.configured_peers == 31);
 
         daim_peer_transport_destroy(tc);
+    }
+
+    /* Deferred-update queue overflow: a peer that never finishes its own
+       snapshot phase (never sends STATE_SNAPSHOT_END) but sends more than
+       MAX_DEFERRED_UPDATES HOST_LOCATION_UPDATE frames must not have the
+       overflowing update silently dropped. exchange_snapshots() aborts the
+       connection instead -- verify that abort actually happens (the
+       connection is torn down and the forced-reconnect stat increments)
+       rather than the update vanishing with no observable effect. */
+    {
+        struct daim_peer_transport *td;
+        struct daim_peer_transport_stats stats_d;
+        struct sockaddr_in addr;
+        int fd, i;
+        struct timeval rcv_timeout = {2, 0};
+        struct daim_peer_header hdr;
+        uint8_t payload[DAIM_PEER_MAX_PAYLOAD_SIZE];
+        struct daim_host_location loc;
+
+        td = daim_peer_transport_create(4, 1, TRANSPORT_D_PORT, &cb_a);
+        assert(td != NULL);
+
+        fd = socket(AF_INET, SOCK_STREAM, 0);
+        assert(fd >= 0);
+        setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, &rcv_timeout, sizeof(rcv_timeout));
+        memset(&addr, 0, sizeof(addr));
+        addr.sin_family = AF_INET;
+        addr.sin_port = htons(TRANSPORT_D_PORT);
+        inet_pton(AF_INET, "127.0.0.1", &addr.sin_addr);
+        assert(connect(fd, (struct sockaddr *)&addr, sizeof(addr)) == 0);
+
+        /* HELLO handshake: td sends its HELLO first (run_connection), then
+           waits to receive ours. */
+        assert(raw_recv_frame(fd, &hdr, payload, sizeof(payload)) == 0);
+        assert(hdr.message_type == DAIM_PEER_MSG_HELLO);
+        assert(raw_send_frame(fd, DAIM_PEER_MSG_HELLO, 999, payload, 8) == 0);
+
+        /* td now enters exchange_snapshots(): it sends us its own
+           STATE_SNAPSHOT_REQUEST and starts waiting for frames. Drain that
+           request (payload-less) and never answer it with our own
+           STATE_SNAPSHOT_END, so td stays inside the receive loop. */
+        assert(raw_recv_frame(fd, &hdr, payload, sizeof(payload)) == 0);
+        assert(hdr.message_type == DAIM_PEER_MSG_STATE_SNAPSHOT_REQUEST);
+
+        memset(&loc, 0, sizeof(loc));
+        loc.mac[0] = 0x00; loc.mac[5] = 0x05;
+        loc.origin_node_id = 999;
+        loc.owner_dpid = 505;
+        loc.owner_port = 1;
+        loc.owner_epoch = 1;
+        loc.sequence = 1;
+        loc.is_local = 1;
+        loc.learned_at_ns = 1;
+
+        /* MAX_DEFERRED_UPDATES (16) fit in the queue; the 17th must push
+           exchange_snapshots() past the bound. */
+        for (i = 0; i < 17; ++i) {
+            uint8_t wire[DAIM_PEER_HOST_LOCATION_WIRE_SIZE];
+            loc.sequence = (uint64_t)(i + 1);
+            daim_peer_encode_host_location(wire, &loc);
+            assert(raw_send_frame(fd, DAIM_PEER_MSG_HOST_LOCATION_UPDATE, 999,
+                                   wire, DAIM_PEER_HOST_LOCATION_WIRE_SIZE) == 0);
+        }
+
+        /* td must close the connection in response, not stay open and
+           silently discard the 17th update. */
+        {
+            uint8_t one_byte;
+            ssize_t n = recv(fd, &one_byte, 1, 0);
+            assert(n == 0); /* EOF: td closed its end */
+        }
+        close(fd);
+
+        {
+            struct timespec pause = {0, 100000000L};
+            nanosleep(&pause, NULL);
+        }
+        daim_peer_transport_get_stats(td, &stats_d);
+        assert(stats_d.deferred_updates_overflow_forced_reconnects >= 1);
+        assert(stats_d.active_connections == 0);
+
+        daim_peer_transport_destroy(td);
     }
 
     return 0;

@@ -1,0 +1,64 @@
+{
+  "n2_rep0": {
+    "n_nodes": 2,
+    "pass": true,
+    "fatal_error": null,
+    "convergence_s": 0.050194937000924256,
+    "connections_observed": 2,
+    "connections_expected": 2,
+    "apply_events_total": 35,
+    "lifecycle_events_total": 8,
+    "propagation": {
+      "n_repetitions_sent": 30,
+      "n_samples": 32,
+      "observing_nodes": [
+        1
+      ],
+      "propagation_ok": true,
+      "latency_summary_ms": {
+        "n": 32,
+        "median": 0.139291,
+        "p95": 0.30265204999999995,
+        "p99": 0.7280974900000008,
+        "maximum": 0.89941,
+        "median_bootstrap_95_ci": [
+          0.104374,
+          0.1801130499999987
+        ]
+      }
+    },
+    "wall_time_s": 9.558659317997808
+  },
+  "n4_rep0": {
+    "n_nodes": 4,
+    "pass": true,
+    "fatal_error": null,
+    "convergence_s": 0.050957680999999866,
+    "connections_observed": 12,
+    "connections_expected": 12,
+    "apply_events_total": 111,
+    "lifecycle_events_total": 40,
+    "propagation": {
+      "n_repetitions_sent": 30,
+      "n_samples": 99,
+      "observing_nodes": [
+        1,
+        2,
+        3
+      ],
+      "propagation_ok": true,
+      "latency_summary_ms": {
+        "n": 99,
+        "median": 0.137624,
+        "p95": 0.36442649999999993,
+        "p99": 0.40116499999999955,
+        "maximum": 0.50333,
+        "median_bootstrap_95_ci": [
+          0.117041,
+          0.180916
+        ]
+      }
+    },
+    "wall_time_s": 8.933688745004474
+  }
+}

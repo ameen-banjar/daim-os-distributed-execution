@@ -12,6 +12,44 @@ related work on autonomous link recovery, cross-environment reproducibility,
 policy-conflict resolution, and intent assurance are separate, independent
 contributions with their own artifacts, not included here.
 
+## v1.2.0 (2026-08-13): two further defects found and fixed
+
+A second, independent code-level review of `v1.1.0` found and fixed two more real defects:
+
+1. **The deferred-update queue could still silently drop an update on overflow.**
+   `v1.1.0`'s fix for the connection-setup race (below) queued a live
+   `HOST_LOCATION_UPDATE` arriving mid-setup in a small bounded buffer
+   (`MAX_DEFERRED_UPDATES`, 16 entries) — but if a 17th update arrived
+   before the buffer drained, it was silently dropped, reproducing exactly
+   the data-loss failure mode the queue was built to close. Fixed by
+   aborting the connection on overflow instead: the dialing side's own
+   pre-existing reconnect loop (bounded exponential backoff, already
+   required for ordinary link loss) turns that into a fresh reconnect and
+   snapshot pull, and by the time that happens the peer that sent the
+   overflowing update has already applied it to its own local table, so
+   the new snapshot carries it as ordinary state rather than losing it. A
+   dedicated unit test (`test_peer_transport.c`) exercises this path
+   directly with a raw-socket peer that withholds `STATE_SNAPSHOT_END`
+   while sending seventeen updates.
+2. **G7's `convergence_s` excluded the very work it was timing.** Peer
+   dialing could start, and a small cluster could even fully converge,
+   *during* `build_cluster`'s own staged per-node launch — before the
+   harness's clock started, since nothing gated when dialing began
+   relative to when timing began. This silently understated convergence
+   time by an amount that grew with cluster size (the staged launch's own
+   duration is `0.5 s × N`), manufacturing an apparent scaling plateau at
+   N=16–32 out of a measurement artefact. Fixed with a barrier: node
+   processes now hold every outbound `add_peer` call behind a
+   `DAIM_PEER_BARRIER_FILE` the harness creates only once every node is
+   already OpenFlow-ready, so "peers start dialing" and "the clock starts"
+   are the same instant. The corrected campaign shows no plateau at all —
+   convergence time grows smoothly and monotonically across N=2..32.
+
+Both are narrated in full in the paper's Section 6.10. All G7 evidence in
+`results/` was re-generated after both fixes (G1–G6/G8 were also re-run to
+confirm no regression from the queue-overflow fix); pre-v1.2.0 evidence
+remains on the `v1.1.0` and `v1.0.0` releases/tags.
+
 ## v1.1.0 (2026-08-12): two additional defects found and fixed
 
 A post-v1.0.0 code audit of the transport and instrumentation layers found and

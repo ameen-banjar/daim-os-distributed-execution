@@ -9,6 +9,13 @@ itself parses):
   DAIM_NODE_ID, DAIM_OWNER_EPOCH, DAIM_CHAIN_ORDER, DAIM_PORT_TOWARD_LOWER,
   DAIM_PORT_TOWARD_HIGHER, DAIM_PEER_LISTEN_PORT, DAIM_PEER_ADDRS -- see
   daim_distributed_node.py's docstring for exact semantics.
+  DAIM_PEER_BARRIER_FILE (optional) -- path to a file that does not exist
+  yet; peer dialing (add_peer for every DAIM_PEER_ADDRS entry) is deferred
+  until it appears, instead of starting immediately at construction. Unset
+  by default (immediate dialing, matching G1-G6/G8's fixed-N=4 gates);
+  scaling_prototype_gate.py sets it so all N nodes in a G7 run start dialing
+  at the same barrier-release instant the harness begins timing from, not
+  whenever each node process happens to finish its own staged launch.
 
 Emits JSONL events to stdout: "ready" once the switch's table-miss rule is
 installed; "apply"/"lifecycle" (relayed from DistributedNode's transport
@@ -19,6 +26,7 @@ import pathlib
 import subprocess
 import sys
 import threading
+import time
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
@@ -37,6 +45,21 @@ PORT_TOWARD_LOWER = int(os.environ.get("DAIM_PORT_TOWARD_LOWER", "0"))
 PORT_TOWARD_HIGHER = int(os.environ.get("DAIM_PORT_TOWARD_HIGHER", "0"))
 PEER_LISTEN_PORT = int(os.environ["DAIM_PEER_LISTEN_PORT"])
 PEER_ADDRS = [a for a in os.environ.get("DAIM_PEER_ADDRS", "").split(",") if a]
+# Optional: path to a file the harness creates only once every node in the
+# cluster is already OpenFlow-ready. If set, peer dialing (add_peer) is held
+# back until that file appears, instead of starting the instant this
+# controller app is constructed. Without this, on a staged multi-node launch
+# (scaling_prototype_gate.py's build_cluster, one node spawned every
+# SPAWN_STAGGER_S) an early-spawned node can dial and fully converge with an
+# already-running peer well before the harness's own "every node is ready"
+# checkpoint, so a convergence measurement that starts its clock at that
+# checkpoint would silently exclude real protocol work that already
+# happened -- this barrier makes "every node dials for the first time" and
+# "the harness starts timing" the same instant instead of two unrelated
+# ones. Unset (the default) preserves the original immediate-dial behaviour
+# G1-G6/G8 rely on, at fixed N=4 where this race is not being measured.
+PEER_BARRIER_FILE = os.environ.get("DAIM_PEER_BARRIER_FILE")
+PEER_BARRIER_POLL_S = 0.01
 
 
 class DistributedNodeController(app_manager.OSKenApp):
@@ -46,12 +69,23 @@ class DistributedNodeController(app_manager.OSKenApp):
         super().__init__(*args, **kwargs)
         self.node = DistributedNode(NODE_ID, OWNER_EPOCH, CHAIN_ORDER,
                                      PORT_TOWARD_LOWER, PORT_TOWARD_HIGHER, PEER_LISTEN_PORT)
-        for addr in PEER_ADDRS:
-            host, port = addr.split(":")
-            self.node.add_peer(host, int(port))
+        if PEER_BARRIER_FILE:
+            threading.Thread(target=self._dial_peers_after_barrier, daemon=True).start()
+        else:
+            for addr in PEER_ADDRS:
+                host, port = addr.split(":")
+                self.node.add_peer(host, int(port))
         self.dpid_to_bridge = {}
         self._table_miss_installed = threading.Event()
         threading.Thread(target=self._announce_when_ready, daemon=True).start()
+
+    def _dial_peers_after_barrier(self):
+        while not os.path.exists(PEER_BARRIER_FILE):
+            time.sleep(PEER_BARRIER_POLL_S)
+        emit("lifecycle", name="peer_dial_released", peer_node_id=0, detail=NODE_ID)
+        for addr in PEER_ADDRS:
+            host, port = addr.split(":")
+            self.node.add_peer(host, int(port))
 
     def _announce_when_ready(self):
         self._table_miss_installed.wait()
